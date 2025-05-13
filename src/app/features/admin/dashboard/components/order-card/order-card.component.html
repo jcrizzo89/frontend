@@ -1,0 +1,26 @@
+<div class="order-card" [class.active]="active">
+  <div class="order-header">
+    <div class="order-number">
+      <mat-icon>phone</mat-icon>
+      <span>{{order.phone}}</span>
+    </div>
+    <div class="order-count" *ngIf="order.orderCount">{{order.orderCount}}</div>
+  </div>
+  
+  <div class="order-content">
+    <div class="client-info">
+      <div class="client-name">{{order.clientName}}</div>
+      <div class="client-address">{{order.address}}</div>
+      <div class="client-notes">{{order.notes}}</div>
+    </div>
+  </div>
+
+  <div class="order-meta">
+    <div class="order-date">{{order.date}}</div>
+    <div class="order-status">N - 1, 25</div>
+  </div>
+
+  <button class="action-button" (click)="onAddProgress()">
+    Agregar avance
+  </button>
+</div>

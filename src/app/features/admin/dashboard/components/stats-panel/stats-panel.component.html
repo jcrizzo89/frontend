@@ -1,0 +1,19 @@
+<div class="stats-panel">
+  <div class="time-section">
+    <div class="time-display">{{currentTime | date:'HH:mm:ss'}}</div>
+    <div class="date-display">{{currentTime | date:'dd/MM/yyyy'}}</div>
+  </div>
+  <div class="stats-section">
+    <div class="stat-item">
+      <mat-icon>person_add</mat-icon>
+      <span>Pedidos no registrados ({{stats.unregisteredOrders}})</span>
+    </div>
+    <div class="stat-item">
+      <mat-icon>sync</mat-icon>
+      <span>Pedidos repetidos ({{stats.repeatedOrders}})</span>
+    </div>
+  </div>
+  <button class="action-button" (click)="onViewDetails()">
+    Ver detalles
+  </button>
+</div>

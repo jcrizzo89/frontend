@@ -1,0 +1,101 @@
+<div class="dialog-container">
+  <!-- Encabezado -->
+  <div class="dialog-header">
+    <h2 mat-dialog-title>Detalles de la llamada</h2>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content>
+    <!-- Estado y Canal -->
+    <div class="status-section">
+      <span class="status-badge" [class]="getStatusClass(data.call.status)">
+        {{getStatusLabel(data.call.status)}}
+      </span>
+      <div class="channel-info">
+        <mat-icon>{{getChannelIcon(data.call.channel)}}</mat-icon>
+        <span>{{data.call.channel === 'whatsapp' ? 'WhatsApp' : 'Llamada telefónica'}}</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Información del Cliente -->
+    <div class="info-section">
+      <h3>Información del Cliente</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Teléfono:</span>
+          <span class="value">{{data.call.phoneAndClient.phone}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Cliente:</span>
+          <span class="value">{{data.call.phoneAndClient.client}}</span>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Información de Entrega -->
+    <div class="info-section">
+      <h3>Información de Entrega</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Dirección:</span>
+          <span class="value">{{data.call.destination.address}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Observaciones:</span>
+          <span class="value">{{data.call.destination.observations}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Zona:</span>
+          <span class="value">{{data.call.zone.name}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Vehículo:</span>
+          <span class="value">{{data.call.zone.vehicle}}</span>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Información del Pedido -->
+    <div class="info-section">
+      <h3>Información del Pedido</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Detalles:</span>
+          <span class="value">{{data.call.order.details}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Notas:</span>
+          <span class="value">{{data.call.order.notes}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Programar Llamada -->
+    <div class="callback-section" *ngIf="data.call.status === 'missed'">
+      <h3>Programar Nueva Llamada</h3>
+      <mat-form-field appearance="outline" class="callback-input">
+        <mat-label>Horario preferido</mat-label>
+        <input matInput [(ngModel)]="callbackTime" placeholder="Ej: Entre 14:00 y 16:00">
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onClose()">Cerrar</button>
+    <button mat-raised-button 
+            color="primary" 
+            *ngIf="data.call.status === 'missed'"
+            [disabled]="!callbackTime"
+            (click)="onScheduleCallback()">
+      Programar Llamada
+    </button>
+  </mat-dialog-actions>
+</div>

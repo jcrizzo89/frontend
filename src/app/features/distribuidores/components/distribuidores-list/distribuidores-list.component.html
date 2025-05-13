@@ -1,0 +1,52 @@
+<div class="distribuidores-list">
+    <div class="header">
+        <h2>Distribuidores</h2>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Cargando distribuidores...</span>
+    </div>
+
+    <div *ngIf="error" class="error">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error" class="list-container">
+        <div *ngFor="let distribuidor of distribuidores" class="distribuidor-card" [routerLink]="['/admin/distributors', distribuidor.id]">
+            <div class="card-header">
+                <h3>{{ distribuidor.nombre }}</h3>
+                <span class="estado" [class.active]="distribuidor.estado === 'activo'" [class.inactive]="distribuidor.estado === 'inactivo'">
+                    {{ distribuidor.estado }}
+                </span>
+            </div>
+            <div class="card-content">
+                <div class="info-row">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ distribuidor.telefono }}</span>
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ distribuidor.email }}</span>
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ distribuidor.direccion }}</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <div class="stat">
+                        <span class="label">Pedidos entregados</span>
+                        <span class="value">{{ distribuidor.estadisticas.pedidosEntregados }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">A tiempo</span>
+                        <span class="value">{{ distribuidor.estadisticas.entregadosATiempo }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

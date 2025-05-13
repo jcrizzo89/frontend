@@ -1,0 +1,52 @@
+<div class="incoming-calls">
+  <!-- Contenedor principal -->
+  <div class="calls-container">
+    <!-- Barra de búsqueda y filtros -->
+    <div class="search-bar">
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput placeholder="Buscar pedido" [(ngModel)]="searchQuery">
+      </mat-form-field>
+    </div>
+
+    <!-- Tabla de llamadas -->
+    <div class="calls-table">
+      <!-- Encabezados -->
+      <div class="table-header">
+        <div class="header-cell">Teléfono y cliente</div>
+        <div class="header-cell">Destino y observaciones</div>
+        <div class="header-cell">Pedido y notas</div>
+        <div class="header-cell">Zona y vehículo</div>
+        <div class="header-cell">Hora y fecha</div>
+        <div class="header-cell">Canal</div>
+        <div class="header-cell">Estado</div>
+        <div class="header-cell">Editar</div>
+      </div>
+
+      <!-- Filas de llamadas -->
+      <div class="table-row" *ngFor="let call of calls">
+        <div class="cell">
+          <div class="phone">{{call.phone}}</div>
+          <div class="client">{{call.client}}</div>
+        </div>
+        <div class="cell">{{call.location}}</div>
+        <div class="cell">Pedido info</div>
+        <div class="cell">Zona info</div>
+        <div class="cell">{{call.timestamp | date:'short'}}</div>
+        <div class="cell">
+          <mat-icon>phone</mat-icon>
+        </div>
+        <div class="cell">
+          <span class="status" [class.pending]="call.status === 'pending'">
+            {{call.status}}
+          </span>
+        </div>
+        <div class="cell actions">
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-background>

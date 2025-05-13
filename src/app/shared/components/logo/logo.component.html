@@ -1,0 +1,15 @@
+<div class="fixed top-4 left-4 z-50 logo-container">
+  <img 
+    [src]="logoUrl" 
+    alt="AguaLuz Logo"
+    class="w-32 h-32 object-contain logo-image"
+    (error)="onImageError()"
+    *ngIf="!hasImageError"
+  />
+  <div 
+    class="w-32 h-32 flex items-center justify-center bg-blue-100 rounded-lg logo-fallback"
+    *ngIf="hasImageError"
+  >
+    <span class="text-blue-600 font-bold logo-text">AguaLuz</span>
+  </div>
+</div>

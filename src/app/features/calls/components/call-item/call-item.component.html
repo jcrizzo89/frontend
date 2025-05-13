@@ -1,0 +1,59 @@
+<div class="call-item" [class]="getStatusClass()">
+  <!-- Información del contacto -->
+  <div class="contact-info">
+    <div class="phone-number">{{call.phoneNumber}}</div>
+    <div class="location">{{call.location}}</div>
+  </div>
+
+  <!-- Dirección -->
+  <div class="address-info">
+    <div class="address">{{call.address}}</div>
+    <div class="address-details">{{call.addressDetails}}</div>
+  </div>
+
+  <!-- Productos -->
+  <div class="products">
+    {{call.products}}
+  </div>
+
+  <!-- Horario -->
+  <div class="schedule" *ngIf="call.schedule">
+    {{call.schedule}}
+  </div>
+
+  <!-- Detalles de la llamada -->
+  <div class="call-details">
+    <div class="contact-name">{{call.contactName}}</div>
+    <div class="time-info">
+      <div class="timestamp">{{call.timestamp}}</div>
+      <div class="duration">{{call.duration}}</div>
+      <div class="date">{{call.date}}</div>
+    </div>
+  </div>
+
+  <!-- Fuente -->
+  <div class="source">
+    {{call.source}}
+  </div>
+
+  <!-- Acciones -->
+  <div class="actions">
+    <button mat-icon-button 
+            color="primary" 
+            (click)="edit.emit()"
+            matTooltip="Editar">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button 
+            color="warn" 
+            (click)="delete.emit()"
+            matTooltip="Eliminar">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <!-- Estado -->
+  <div class="status">
+    <mat-icon [class]="getStatusClass()">{{getStatusIcon()}}</mat-icon>
+  </div>
+</div>

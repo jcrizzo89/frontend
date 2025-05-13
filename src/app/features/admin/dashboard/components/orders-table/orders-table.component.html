@@ -1,0 +1,54 @@
+<div class="orders-list">
+  <table class="orders-table">
+    <thead>
+      <tr>
+        <th>Teléfono y cliente</th>
+        <th>Destino y observaciones</th>
+        <th>Pedido y notas de pedido</th>
+        <th>Zona y vehículo</th>
+        <th>Hora y fecha</th>
+        <th>Canal</th>
+        <th>Estado</th>
+        <th>Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders" [class.highlighted]="order.highlighted">
+        <td class="phone-client">
+          <div class="phone">{{order.phone}}</div>
+          <div class="client">{{order.clientName}}</div>
+        </td>
+        <td class="destination">
+          <div class="address">{{order.address}}</div>
+          <div class="notes">{{order.notes}}</div>
+        </td>
+        <td class="order-details">
+          <div class="products">{{order.products}}</div>
+        </td>
+        <td class="zone-vehicle">
+          <div class="zone">{{order.zone}}</div>
+        </td>
+        <td class="datetime">
+          <div class="time">{{order.time}}</div>
+          <div class="date">{{order.date}}</div>
+        </td>
+        <td class="channel">
+          <div class="channel-icon" [class.whatsapp]="order.channel === 'whatsapp'">
+            <mat-icon>{{order.channel === 'whatsapp' ? 'whatsapp' : 'phone'}}</mat-icon>
+            <span>{{order.channel}}</span>
+          </div>
+        </td>
+        <td class="status">
+          <div class="status-badge" [class.pendiente]="order.status === 'pendiente'" [class.entregado]="order.status === 'entregado'">
+            {{order.status}}
+          </div>
+        </td>
+        <td class="actions">
+          <button mat-icon-button (click)="onEditOrder(order)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

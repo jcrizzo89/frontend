@@ -1,0 +1,55 @@
+.filters-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: var(--white);
+  border-radius: var(--br-base);
+}
+
+.search-bar {
+  flex: 1;
+}
+
+.search-bar mat-form-field {
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.filter-checkbox {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+/* Material Design Overrides */
+::ng-deep .mat-mdc-checkbox {
+  margin: 0;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-checkbox {
+  padding: 0;
+  margin-right: 8px;
+}
+
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-flex {
+  background-color: var(--background-light);
+  border-radius: var(--br-13xl);
+}
+
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+  display: none;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}

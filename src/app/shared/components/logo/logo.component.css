@@ -1,0 +1,28 @@
+.logo-container {
+  position: fixed;
+  top: 0rem;
+  right: 3%;
+  z-index: 50;
+}
+
+.logo-image {
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
+  /* como alinearlo a la derecha? */
+}
+
+.logo-fallback {
+  width: 8rem;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #E6F0FF;
+  border-radius: 0.5rem;
+}
+
+.logo-text {
+  color: #0051D6;
+  font-weight: bold;
+}

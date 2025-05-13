@@ -1,0 +1,31 @@
+<div class="distribuidores-container">
+    <div class="main-content">
+        <div *ngIf="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Cargando datos...</span>
+        </div>
+
+        <div *ngIf="error" class="error">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ error }}
+        </div>
+
+        <div *ngIf="successMessage" class="success">
+            <i class="fas fa-check-circle"></i>
+            {{ successMessage }}
+        </div>
+
+        <div *ngIf="!loading && !error && distribuidor" class="distribuidor-info">
+            <app-distribuidor-detail 
+                [distribuidor]="distribuidor"
+                (distribuidorUpdated)="onDistribuidorUpdated($event)"
+            ></app-distribuidor-detail>
+
+            <app-pedidos-historial 
+                [pedidos]="pedidosHistorial"
+                (pedidoUpdated)="onPedidoUpdated($event)"
+                (exportPedido)="onExportPedido($event)"
+            ></app-pedidos-historial>
+        </div>
+    </div>
+</div>

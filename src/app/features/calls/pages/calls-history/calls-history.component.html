@@ -1,0 +1,36 @@
+<div class="page-container">
+
+  <!-- Encabezado con botón volver -->
+  <div class="header">
+    <button mat-button class="back-button" routerLink="/inicio">
+      <mat-icon>arrow_back</mat-icon>
+      Volver
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <app-calls-filters
+    (filterChange)="onFilterChange($event)"
+    (searchChange)="onSearch($event)">
+  </app-calls-filters>
+
+  <!-- Estado de carga -->
+  <div *ngIf="isLoading" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span>Cargando llamadas...</span>
+  </div>
+
+  <!-- Mensaje sin resultados -->
+  <div *ngIf="!isLoading && filteredCalls.length === 0" class="no-results">
+    <mat-icon>search_off</mat-icon>
+    <span>No se encontraron llamadas</span>
+  </div>
+
+  <!-- Tabla de llamadas -->
+  <app-calls-table
+    *ngIf="!isLoading && filteredCalls.length > 0"
+    [calls]="filteredCalls"
+    (callback)="onCallback($event)"
+    (viewDetails)="onViewDetails($event)">
+  </app-calls-table>
+</div>

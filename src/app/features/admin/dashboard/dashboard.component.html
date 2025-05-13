@@ -1,0 +1,44 @@
+<div class="dashboard">
+
+  <div class="dashboard-container">
+    <div class="order-cards">
+      <app-order-card *ngFor="let order of activeOrders" [order]="order" (addProgress)="onAddProgress($event)"></app-order-card>
+      <app-stats-panel [stats]="stats" [currentTime]="currentTime" (viewDetails)="onViewDetails()"></app-stats-panel>
+    </div>
+
+    <div class="search-container">
+      <div class="search-bar">
+        <div class="search-input">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Buscar pedidos..." [(ngModel)]="searchQuery">
+        </div>
+        
+        <div class="filters">
+          <button class="filter-btn" [class.active]="currentFilter === 'all'" (click)="setFilter('all')">
+            <mat-icon>list</mat-icon>
+            Todos
+          </button>
+          <button class="filter-btn" [class.active]="currentFilter === 'pendiente'" (click)="setFilter('pendiente')">
+            <mat-icon>pending</mat-icon>
+            Pendientes
+          </button>
+          <button class="filter-btn" [class.active]="currentFilter === 'entregado'" (click)="setFilter('entregado')">
+            <mat-icon>check_circle</mat-icon>
+            Entregados
+          </button>
+        </div>
+
+        <div class="action-buttons">
+          <button mat-icon-button>
+            <mat-icon>filter_list</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <app-orders-table [orders]="filteredOrders" (editOrder)="onEditOrder($event)"></app-orders-table>
+  </div>
+</div>

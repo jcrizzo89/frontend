@@ -1,0 +1,68 @@
+<div class="table-container">
+  <table class="calls-table">
+    <thead>
+      <tr>
+        <th *ngFor="let col of columns" [style.width]="col.width">{{col.label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let call of calls" class="call-row">
+        <!-- Fecha y hora -->
+        <td class="datetime-cell">
+          {{call.datetime | date:'dd/MM/yyyy'}}
+          <br>
+          <span class="time">{{call.datetime | date:'HH:mm:ss'}}</span>
+        </td>
+
+        <!-- Teléfono y cliente -->
+        <td class="client-cell">
+          <div class="phone">{{call.phoneAndClient.phone}}</div>
+          <div class="client-name">{{call.phoneAndClient.client}}</div>
+        </td>
+
+        <!-- Destino y observaciones -->
+        <td class="destination-cell">
+          <div class="address">{{call.destination.address}}</div>
+          <div class="observations">{{call.destination.observations}}</div>
+        </td>
+
+        <!-- Pedido y notas -->
+        <td class="order-cell">
+          <div class="order-details">{{call.order.details}}</div>
+          <div class="order-notes">{{call.order.notes}}</div>
+        </td>
+
+        <!-- Zona y vehículo -->
+        <td class="zone-cell">
+          <div class="zone">{{call.zone.name}}</div>
+          <div class="vehicle">{{call.zone.vehicle}}</div>
+        </td>
+
+        <!-- Volver a llamar -->
+        <td class="callback-cell">
+          <button mat-icon-button 
+                  *ngIf="call.callbackTime"
+                  [matTooltip]="'Volver a llamar: ' + call.callbackTime"
+                  (click)="onCallback(call)">
+            <mat-icon>schedule</mat-icon>
+          </button>
+        </td>
+
+        <!-- Canal -->
+        <td class="channel-cell">
+          <mat-icon [matTooltip]="call.channel === 'whatsapp' ? 'WhatsApp' : 'Llamada telefónica'">
+            {{getChannelIcon(call.channel)}}
+          </mat-icon>
+        </td>
+
+        <!-- Estado -->
+        <td class="status-cell">
+          <span class="status-badge" [class]="getStatusClass(call.status)">
+            {{call.status === 'missed' ? 'LLAMADA PERDIDA' : 
+              call.status === 'completed' ? 'COMPLETADA' : 'PENDIENTE'}}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

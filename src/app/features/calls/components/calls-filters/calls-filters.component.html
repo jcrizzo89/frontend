@@ -1,0 +1,29 @@
+<div class="filters-container">
+  <!-- Barra de búsqueda -->
+  <div class="search-bar">
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput 
+             placeholder="Buscar llamadas" 
+             [(ngModel)]="searchQuery"
+             (input)="onSearch($event)">
+    </mat-form-field>
+  </div>
+
+  <!-- Filtros de llamadas -->
+  <div class="filters">
+    <mat-checkbox 
+      [(ngModel)]="filters.missed"
+      (change)="onFilterChange()"
+      class="filter-checkbox">
+      Llamadas perdidas
+    </mat-checkbox>
+
+    <mat-checkbox 
+      [(ngModel)]="filters.registered"
+      (change)="onFilterChange()"
+      class="filter-checkbox">
+      Llamadas registradas
+    </mat-checkbox>
+  </div>
+</div>

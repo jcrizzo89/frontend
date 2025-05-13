@@ -1,0 +1,204 @@
+.pedidos-historial {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 250px;
+    font-size: 14px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.pedidos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.pedidos-table th,
+.pedidos-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.pedidos-table th {
+    background: #f8f9fa;
+    font-weight: 500;
+    color: #495057;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.pedidos-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.pedidos-table th.sortable:hover {
+    background: #e9ecef;
+}
+
+.pedidos-table th.sortable i {
+    margin-left: 5px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.pedidos-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.pedidos-table tr.oculto {
+    opacity: 0.6;
+    background-color: #f8f9fa;
+}
+
+.demora-alta {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.estado {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.estado.pendiente {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.estado.entregado {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.estado.demorado {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.estado.cancelado {
+    background: #f5f5f5;
+    color: #616161;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 16px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px dashed #ddd;
+}
+
+.fas {
+    font-size: 16px;
+    color: #495057;
+}
+
+.fa-phone { color: #28a745; }
+.fa-globe { color: #007bff; }
+.fa-mobile-alt { color: #6f42c1; }
+.fa-question { color: #6c757d; }
+
+.actions {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #e9ecef;
+}
+
+.action-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+}
+
+.action-btn i {
+    font-size: 14px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1024px) {
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-input,
+    .filter-select {
+        width: 100%;
+    }
+
+    .pedidos-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .actions {
+        position: sticky;
+        right: 0;
+        background: #fff;
+    }
+}

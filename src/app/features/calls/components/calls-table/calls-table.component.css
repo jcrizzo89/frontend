@@ -1,0 +1,126 @@
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: var(--br-base);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calls-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Header styles */
+thead {
+  background-color: var(--background-light);
+}
+
+th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Row styles */
+.call-row {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.call-row:hover {
+  background-color: var(--background-hover);
+}
+
+td {
+  padding: 1rem;
+  vertical-align: top;
+}
+
+/* Cell specific styles */
+.datetime-cell {
+  white-space: nowrap;
+}
+
+.time {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}
+
+.client-cell .phone {
+  font-weight: 500;
+}
+
+.client-cell .client-name {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  margin-top: 0.25rem;
+}
+
+.destination-cell .observations,
+.order-cell .order-notes {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  margin-top: 0.25rem;
+}
+
+.zone-cell .vehicle {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  margin-top: 0.25rem;
+}
+
+/* Status badge styles */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.status-missed {
+  background-color: var(--error-light);
+  color: var(--error);
+}
+
+.status-completed {
+  background-color: var(--success-light);
+  color: var(--success);
+}
+
+.status-pending {
+  background-color: var(--warning-light);
+  color: var(--warning);
+}
+
+/* Channel icon styles */
+.channel-cell {
+  text-align: center;
+}
+
+.channel-cell mat-icon {
+  color: var(--text-secondary);
+}
+
+/* Callback button styles */
+.callback-cell {
+  text-align: center;
+}
+
+.callback-cell mat-icon {
+  color: var(--primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .calls-table {
+    font-size: 13px;
+  }
+  
+  td, th {
+    padding: 0.75rem;
+  }
+}

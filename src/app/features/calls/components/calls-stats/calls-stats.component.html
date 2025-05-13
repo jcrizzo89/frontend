@@ -1,0 +1,44 @@
+<div class="stats-container">
+  <!-- Información del tiempo -->
+  <div class="time-info">
+    <div class="time-box">
+      <div class="timestamp">{{stats.timestamp}}</div>
+      <div class="location">{{stats.location}}</div>
+      <div class="date">{{stats.date}}</div>
+    </div>
+  </div>
+
+  <!-- Estadísticas de llamadas -->
+  <div class="calls-stats">
+    <div class="stats-box">
+      <div class="stats-content">
+        <div class="stats-item">
+          <div class="stats-label">Pedidos no registrados ({{stats.unregisteredCalls}})</div>
+          <div class="stats-value">{{stats.unregisteredCalls}}</div>
+        </div>
+        <div class="stats-item">
+          <div class="stats-label">Pedidos repetidos ({{stats.repeatedCalls}})</div>
+          <div class="stats-value">{{stats.repeatedCalls}}</div>
+        </div>
+      </div>
+      
+      <button mat-flat-button 
+              color="primary" 
+              class="details-button"
+              (click)="onViewDetails()">
+        <mat-icon>visibility</mat-icon>
+        Ver detalles
+      </button>
+    </div>
+  </div>
+
+  <!-- Iconos de estado -->
+  <div class="status-icons">
+    <div class="icon-group">
+      <mat-icon>phone_in_talk</mat-icon>
+      <mat-icon>phone_callback</mat-icon>
+      <mat-icon>phone_missed</mat-icon>
+    </div>
+    <div class="connection-line"></div>
+  </div>
+</div>

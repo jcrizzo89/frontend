@@ -1,0 +1,25 @@
+<div class="calls-page">
+
+  <!-- Estadísticas -->
+  <section class="stats-section">
+    <app-calls-stats [stats]="stats"></app-calls-stats>
+  </section>
+
+  <!-- Filtros y búsqueda -->
+  <section class="filters-section">
+    <app-calls-filters
+      (filterChange)="onFilterChange($event)"
+      (searchChange)="onSearchChange($event)">
+    </app-calls-filters>
+  </section>
+
+  <!-- Lista de llamadas -->
+  <section class="calls-list">
+    <app-call-item 
+      *ngFor="let call of calls; let i = index"
+      [call]="call"
+      (edit)="onEditCall(i)"
+      (delete)="onDeleteCall(i)">
+    </app-call-item>
+  </section>
+</div>

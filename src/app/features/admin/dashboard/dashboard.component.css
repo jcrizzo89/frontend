@@ -1,0 +1,115 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #03A9F4;
+}
+
+
+
+.dashboard-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Order Cards Section */
+.order-cards {
+  display: flex;
+  gap: 16px;
+}
+
+/* Search Container */
+.search-container {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  width: 300px;
+}
+
+.search-input mat-icon {
+  color: #666;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.search-input input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  color: #333;
+}
+
+.search-input input::placeholder {
+  color: #999;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.filter-btn {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background: rgba(3, 169, 244, 0.1);
+}
+
+.filter-btn.active {
+  background: #03A9F4;
+  color: white;
+}
+
+.filter-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons button {
+  color: #666;
+}
+
+.action-buttons button:hover {
+  color: #03A9F4;
+  background: rgba(3, 169, 244, 0.1);
+}

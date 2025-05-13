@@ -1,0 +1,26 @@
+<nav>
+  <div class="nav-container">
+    <div class="nav-links">
+      <a routerLink="/admin/dashboard" 
+         routerLinkActive="nav-active"
+         [routerLinkActiveOptions]="{exact: true}"
+         class="nav-link">Inicio</a>
+      <a routerLink="/admin/clients" 
+         routerLinkActive="nav-active" 
+         class="nav-link">Clientes</a>
+      <a routerLink="/admin/zones" 
+         routerLinkActive="nav-active" 
+         class="nav-link">Zonas</a>
+      <a routerLink="/admin/distributors" 
+         routerLinkActive="nav-active" 
+         class="nav-link">Distribuidores</a>
+      <a routerLink="/admin/calls/history" 
+         routerLinkActive="nav-active" 
+         class="nav-link">Historial llamadas</a>
+    </div>
+    
+    <div class="logo-section">
+      <img src="assets/images/logo.png" alt="AguaLuz Logo" class="logo">
+    </div>
+  </div>
+</nav>

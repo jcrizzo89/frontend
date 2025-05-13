@@ -1,0 +1,65 @@
+<div class="pedidos-historial">
+    <div class="filters">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" 
+                placeholder="Buscar pedidos..."
+                [(ngModel)]="searchTerm"
+                (input)="onSearch($event)">
+        </div>
+
+        <div class="filter-status">
+            <select [(ngModel)]="filterStatus" (ngModelChange)="onFilterStatus($event)">
+                <option value="">Todos los estados</option>
+                <option *ngFor="let estado of ESTADOS" [value]="estado">{{estado}}</option>
+            </select>
+        </div>
+    </div>
+
+    <table class="pedidos-table">
+        <thead>
+            <tr>
+                <th (click)="onSort('fechaHora')">
+                    Fecha/Hora
+                    <i class="fas" [ngClass]="sortBy === 'fechaHora' ? (sortAscending ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'"></i>
+                </th>
+                <th>Cliente</th>
+                <th>Destino</th>
+                <th (click)="onSort('estado')">
+                    Estado
+                    <i class="fas" [ngClass]="sortBy === 'estado' ? (sortAscending ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'"></i>
+                </th>
+                <th>Canal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pedido of filteredPedidos">
+                <td>{{pedido.fechaHora | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{pedido.cliente}}</td>
+                <td>{{pedido.destino}}</td>
+                <td>
+                    <span class="estado" [ngClass]="pedido.estado.toLowerCase()">
+                        {{pedido.estado}}
+                    </span>
+                </td>
+                <td>
+                    <i class="fas" [ngClass]="{
+                        'fa-phone': pedido.canal === 'telefono',
+                        'fa-whatsapp': pedido.canal === 'whatsapp',
+                        'fa-globe': pedido.canal === 'web'
+                    }"></i>
+                    {{pedido.canal}}
+                </td>
+                <td class="actions">
+                    <button (click)="onUpdatePedido(pedido)" title="Actualizar pedido">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button (click)="onExportPedido(pedido)" title="Exportar pedido">
+                        <i class="fas fa-file-export"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

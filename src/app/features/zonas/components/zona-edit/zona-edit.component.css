@@ -1,0 +1,50 @@
+.edit-zona-dialog {
+  max-width: 650px;
+  padding: 0 10px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.form-field {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.map-preview {
+  margin-top: 16px;
+}
+
+.map-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.map-container {
+  border-radius: 8px;
+  overflow: hidden;
+  width: 200px;
+  height: 150px;
+  margin-bottom: 16px;
+}
+
+.map-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.volver-link {
+  color: #666;
+  margin-right: auto;
+}
+
+mat-dialog-actions {
+  padding: 16px 0;
+}

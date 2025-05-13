@@ -1,0 +1,121 @@
+.dialog-container {
+  min-width: 500px;
+  max-width: 800px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Status section */
+.status-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.status-missed {
+  background-color: var(--error-light);
+  color: var(--error);
+}
+
+.status-completed {
+  background-color: var(--success-light);
+  color: var(--success);
+}
+
+.status-pending {
+  background-color: var(--warning-light);
+  color: var(--warning);
+}
+
+.channel-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+/* Info sections */
+.info-section {
+  margin: 1.5rem 0;
+}
+
+.info-section h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-item .label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.info-item .value {
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+/* Callback section */
+.callback-section {
+  margin: 1.5rem 0;
+}
+
+.callback-input {
+  width: 100%;
+}
+
+/* Dialog actions */
+mat-dialog-actions {
+  padding: 1rem 0;
+  margin-bottom: 0;
+}
+
+/* Dividers */
+mat-divider {
+  margin: 1.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .dialog-container {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}

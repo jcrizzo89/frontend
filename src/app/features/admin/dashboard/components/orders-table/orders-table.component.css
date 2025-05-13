@@ -1,0 +1,181 @@
+.orders-list {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead tr {
+  background: #F5F5F5;
+  height: 48px;
+}
+
+th {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0 16px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #F5F5F5;
+  transition: background-color 0.2s;
+}
+
+tbody tr:hover:not(.highlighted) {
+  background: #FAFAFA;
+}
+
+tbody tr.highlighted {
+  background: #FFF3E0;
+}
+
+td {
+  padding: 8px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #F5F5F5;
+}
+
+/* Phone and Client Column */
+.phone-client {
+  min-width: 160px;
+}
+
+.phone {
+  color: #03A9F4;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.client {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Destination Column */
+.destination {
+  max-width: 300px;
+}
+
+.address {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.notes {
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Order Details Column */
+.order-details {
+  min-width: 180px;
+}
+
+.products {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Zone and Vehicle Column */
+.zone-vehicle {
+  min-width: 100px;
+}
+
+.zone {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Date and Time Column */
+.datetime {
+  min-width: 120px;
+}
+
+.time, .date {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Channel Column */
+.channel {
+  min-width: 140px;
+}
+
+.channel-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.channel-icon.whatsapp {
+  color: #4CAF50;
+}
+
+.channel-icon mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.channel-icon span {
+  white-space: nowrap;
+}
+
+/* Status Column */
+.status {
+  min-width: 120px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.status-badge.pendiente {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.status-badge.entregado {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+/* Actions Column */
+.actions {
+  width: 48px;
+  text-align: center;
+}
+
+.actions button {
+  color: #666;
+}
+
+.actions button:hover {
+  color: #03A9F4;
+  background: rgba(3, 169, 244, 0.1);
+}

@@ -1,0 +1,90 @@
+<div class="distribuidor-detail">
+    <div class="header">
+        <h2>Detalles del Distribuidor</h2>
+        <button *ngIf="!editMode" class="edit-button" (click)="startEdit()">
+            <i class="fas fa-edit"></i> Editar
+        </button>
+    </div>
+
+    <div class="content">
+        <div *ngIf="!editMode" class="info-display">
+            <div class="info-group">
+                <label>Nombre:</label>
+                <span>{{ distribuidor.nombre }}</span>
+            </div>
+            <div class="info-group">
+                <label>Teléfono:</label>
+                <span>{{ distribuidor.telefono }}</span>
+            </div>
+            <div class="info-group">
+                <label>Email:</label>
+                <span>{{ distribuidor.email }}</span>
+            </div>
+            <div class="info-group">
+                <label>Dirección:</label>
+                <span>{{ distribuidor.direccion }}</span>
+            </div>
+            <div class="info-group">
+                <label>Estado:</label>
+                <span [class.active]="distribuidor.estado === 'activo'"
+                      [class.inactive]="distribuidor.estado === 'inactivo'">
+                    {{ distribuidor.estado }}
+                </span>
+            </div>
+        </div>
+
+        <form *ngIf="editMode && editedDistribuidor" class="edit-form">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input id="nombre" 
+                       type="text" 
+                       [(ngModel)]="editedDistribuidor.nombre" 
+                       name="nombre" 
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input id="telefono" 
+                       type="tel" 
+                       [(ngModel)]="editedDistribuidor.telefono" 
+                       name="telefono" 
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input id="email" 
+                       type="email" 
+                       [(ngModel)]="editedDistribuidor.email" 
+                       name="email" 
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input id="direccion" 
+                       type="text" 
+                       [(ngModel)]="editedDistribuidor.direccion" 
+                       name="direccion" 
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select id="estado" 
+                        [(ngModel)]="editedDistribuidor.estado" 
+                        name="estado" 
+                        required>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="save-button" (click)="saveChanges()">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+                <button type="button" class="cancel-button" (click)="cancelEdit()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

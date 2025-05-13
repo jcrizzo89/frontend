@@ -1,0 +1,98 @@
+<div class="form-container">
+  <div class="form-header">
+    <h2>{{ isEditing ? 'Editar' : 'Nuevo' }} Cliente</h2>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="client-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" placeholder="0985 123456">
+        <mat-error *ngIf="clientForm.get('phone')?.errors?.['required']">
+          El teléfono es requerido
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('phone')?.errors?.['pattern']">
+          Formato inválido. Use: 0985 123456
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" placeholder="Nombre del cliente">
+        <mat-error *ngIf="clientForm.get('name')?.errors?.['required']">
+          El nombre es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="address" placeholder="Dirección completa">
+        <mat-error *ngIf="clientForm.get('address')?.errors?.['required']">
+          La dirección es requerida
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Link del Mapa</mat-label>
+        <input matInput formControlName="mapLink" placeholder="https://www.google.com/maps?q=...">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput formControlName="observations" placeholder="Detalles adicionales del cliente"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Zona</mat-label>
+        <mat-select formControlName="zone">
+          <mat-option value="14">Zona 14</mat-option>
+          <!-- Agregar más zonas según sea necesario -->
+        </mat-select>
+        <mat-error *ngIf="clientForm.get('zone')?.errors?.['required']">
+          La zona es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Botellón</mat-label>
+        <mat-select formControlName="bottleType">
+          <mat-option value="Grande">Grande</mat-option>
+          <mat-option value="Pequeño">Pequeño</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clientForm.get('bottleType')?.errors?.['required']">
+          El tipo de botellón es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Cliente</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="Bueno">Bueno</mat-option>
+          <mat-option value="Regular">Regular</mat-option>
+          <mat-option value="Malo">Malo</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clientForm.get('type')?.errors?.['required']">
+          El tipo de cliente es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="onClose()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid">
+        {{ isEditing ? 'Guardar Cambios' : 'Crear Cliente' }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,25 @@
+<div class="container">
+  <!-- Filtros y botón de agregar -->
+  <div class="header-actions">
+    <app-client-filters (filtersChanged)="onFiltersChanged($event)"></app-client-filters>
+    <button mat-raised-button color="primary" (click)="onAddClient()">
+      <mat-icon>add</mat-icon>
+      Agregar Cliente
+    </button>
+  </div>
+
+  <!-- Lista de clientes -->
+  <app-client-list
+    (editClient)="onEditClient($event)">
+  </app-client-list>
+
+  <!-- Modal de formulario -->
+  <div class="modal" *ngIf="showClientForm">
+    <div class="modal-backdrop" (click)="onCloseForm()"></div>
+    <app-client-form
+      [client]="selectedClient"
+      (close)="onCloseForm()"
+      (saved)="onClientSaved($event)">
+    </app-client-form>
+  </div>
+</div>

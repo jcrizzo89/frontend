@@ -1,0 +1,77 @@
+<div class="filters-container">
+  <form [formGroup]="filterForm">
+    <!-- Barra de búsqueda principal -->
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar clientes</mat-label>
+        <input matInput formControlName="search" placeholder="Buscar por nombre, teléfono o dirección...">
+        <mat-icon matPrefix>search</mat-icon>
+        <button mat-icon-button matSuffix *ngIf="filterForm.get('search')?.value"
+                (click)="filterForm.get('search')?.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-button color="primary" type="button" (click)="toggleAdvancedFilters()">
+        <mat-icon>{{ showAdvancedFilters ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{ showAdvancedFilters ? 'Menos filtros' : 'Más filtros' }}
+      </button>
+    </div>
+
+    <!-- Filtros avanzados -->
+    <div class="advanced-filters" *ngIf="showAdvancedFilters">
+      <div class="filters-grid">
+        <!-- Zona -->
+        <mat-form-field appearance="outline">
+          <mat-label>Zona</mat-label>
+          <mat-select formControlName="zone">
+            <mat-option [value]="">Todas</mat-option>
+            <mat-option *ngFor="let zone of zones" [value]="zone">
+              Zona {{zone}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Tipo de Botellón -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Botellón</mat-label>
+          <mat-select formControlName="bottleType">
+            <mat-option [value]="">Todos</mat-option>
+            <mat-option *ngFor="let type of bottleTypes" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Tipo de Cliente -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Cliente</mat-label>
+          <mat-select formControlName="clientType">
+            <mat-option [value]="">Todos</mat-option>
+            <mat-option *ngFor="let type of clientTypes" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Rango de Fechas -->
+        <mat-form-field appearance="outline" formGroupName="dateRange">
+          <mat-label>Rango de fechas</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Fecha inicial">
+            <input matEndDate formControlName="end" placeholder="Fecha final">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="filter-actions">
+        <button mat-button type="button" (click)="clearFilters()">
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

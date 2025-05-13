@@ -1,0 +1,72 @@
+.card {
+    width: 551px;
+    height: 243px;
+    background: rgba(1, 18, 47, 0.48);
+    border: 1px solid #32A2DA;
+    border-radius: 24px;
+    padding: 16px 24px;
+  
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+  
+      .number {
+        font-size: 32px;
+        color: #A0A4AA;
+        font-weight: 700;
+      }
+  
+      .phone {
+        font-size: 24px;
+        color: #FFFFFF;
+        font-weight: 500;
+      }
+  
+      .date {
+        font-size: 12px;
+        color: #FFFFFF;
+        text-align: center;
+      }
+    }
+  
+    .card-body {
+      margin-top: 16px;
+  
+      .label {
+        font-size: 12px;
+        color: #32A2DA;
+        margin-bottom: 4px;
+      }
+  
+      .destination, .observations {
+        color: #FFFFFF;
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+  
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 24px;
+  
+        .edit-link {
+          color: #32A2DA;
+          font-weight: 700;
+          font-size: 12px;
+          cursor: pointer;
+        }
+  
+        .add-order {
+          background: #32A2DA;
+          border-radius: 13px;
+          color: #FFFFFF;
+          padding: 12px 24px;
+          border: none;
+          font-size: 12px;
+          cursor: pointer;
+        }
+      }
+    }
+  }

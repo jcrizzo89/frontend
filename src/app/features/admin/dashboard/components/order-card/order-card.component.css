@@ -1,0 +1,130 @@
+.order-card {
+  background: #0288D1;
+  border-radius: 8px;
+  padding: 16px;
+  width: 350px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-card.active {
+  background: #0277BD;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-number {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-number mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  opacity: 0.8;
+}
+
+.order-number span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.order-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.order-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.order-phone {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.order-count {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.order-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.client-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.client-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.client-address {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.client-notes {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.order-status {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.action-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.action-button:active {
+  transform: translateY(1px);
+}

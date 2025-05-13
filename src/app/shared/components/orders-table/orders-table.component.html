@@ -1,0 +1,73 @@
+<div class="table-container">
+    <div class="filters">
+      <div class="search">
+        <input type="text" placeholder="Buscar pedidos">
+      </div>
+      <div class="filter-options">
+        <label class="filter">
+          <input type="checkbox" checked>
+          <span>Todos</span>
+        </label>
+        <label class="filter">
+          <input type="checkbox">
+          <span>Entrega pendiente</span>
+        </label>
+        <label class="filter">
+          <input type="checkbox">
+          <span>Entregados</span>
+        </label>
+        <div class="time-filter">
+          Último mes
+        </div>
+        <label class="filter">
+          <input type="checkbox">
+          <span>Ocultos</span>
+        </label>
+      </div>
+    </div>
+  
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Teléfono y cliente</th>
+          <th>Destino y observaciones</th>
+          <th>Pedido y notas de pedido</th>
+          <th>Zona y vehículo</th>
+          <th>Hora y fecha</th>
+          <th>Canal</th>
+          <th>Estado</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td class="client-col">
+            <div class="phone">{{order.phone}}</div>
+            <div class="name">{{order.clientName}}</div>
+          </td>
+          <td class="destination-col">
+            <div>{{order.destination}}</div>
+            <div class="observations">{{order.observations}}</div>
+          </td>
+          <td class="order-col">
+            <div>{{order.orderDetails}}</div>
+            <div class="notes">{{order.notes}}</div>
+          </td>
+          <td class="zone-col">
+            <div>{{order.zone}} - {{order.vehicle}}</div>
+            <div class="driver">{{order.driver}}</div>
+          </td>
+          <td class="time-col">
+            <div>{{order.time}}</div>
+            <div>{{order.duration}}</div>
+            <div class="date">{{order.date}}</div>
+          </td>
+          <td class="channel-col">{{order.channel}}</td>
+          <td [ngClass]="['status-col', order.status]">{{order.status}}</td>
+          <td class="actions-col">
+            <button class="edit-btn"><i class="edit-icon"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
