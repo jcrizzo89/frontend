@@ -72,14 +72,14 @@
 
 .details-button {
   align-self: flex-start;
-  background-color: var(--color-deepskyblue-100) !important;
-  color: var(--white) !important;
-  border-radius: var(--br-smi) !important;
-  padding: 0.5rem 1rem !important;
+  background-color: var(--color-deepskyblue-100);
+  color: var(--white);
+  border-radius: var(--br-smi);
+  padding: 0.5rem 1rem;
 }
 
 .details-button:hover {
-  background-color: var(--color-steelblue-100) !important;
+  background-color: var(--color-steelblue-100);
 }
 
 /* Iconos de estado */

@@ -1,4 +1,298 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap');
 
-html, body { height: 100%; }
-body { margin: 0; }
+:root {
+  --primary-color: #32A2DA;
+  --secondary-color: #01122F;
+  --text-color: #01122F;
+  --text-light: #FFFFFF;
+  --text-muted: #3D3F42;
+  --bg-light: #EAEAEA;
+  --filter-bg: #B0C7D3;
+  --container-bg: #DFDFDF; /* Color unificado para contenedores */
+  --accent-orange: #FF9015;
+  --accent-green: #43A047;
+  --accent-red: #FF0000;
+  --border-radius: 24px;
+  --card-bg: rgba(1, 18, 47, 0.48);
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Aplicar la fuente a todos los elementos */
+html, body, input, textarea, button, select, h1, h2, h3, h4, h5, h6, p, span, div, a, label, th, td, li, .mat-typography {
+  font-family: 'Red Hat Display', sans-serif !important;
+}
+
+/* Establecer fondo azul para toda la aplicación */
+html, body, app-root, .mat-sidenav-container, .mat-drawer-container, .mat-dialog-container {
+  height: 100%;
+  background-color: var(--primary-color) !important;
+  color: var(--text-color);
+  font-family: 'Red Hat Display', sans-serif;
+}
+
+/* Asegurar que los componentes de Angular Material hereden el fondo */
+.mat-card, .mat-expansion-panel, .mat-menu-panel, .mat-dialog-container, .mat-snack-bar-container {
+  background-color: var(--primary-color) !important;
+}
+
+/* Asegurar que los diálogos modales tengan el fondo azul */
+.cdk-overlay-container .cdk-overlay-pane {
+  background-color: var(--primary-color) !important;
+}
+
+/* Asegurar que las tarjetas y paneles tengan el fondo azul */
+.mat-card, .mat-expansion-panel {
+  background-color: var(--primary-color) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body { 
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--primary-color) !important;
+}
+
+/* Estilos para los botones */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Estilos para los inputs */
+input, textarea, select {
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 16px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Estilos específicos para inputs de filtro */
+.filter-input, 
+input[type="search"],
+input[type="text"].mat-input-element,
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: var(--filter-bg) !important;
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 8px 16px !important;
+  color: var(--text-color) !important;
+}
+
+/* Asegurar que el input dentro de mat-form-field herede el fondo */
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  background-color: var(--filter-bg) !important;
+  border-radius: 20px !important;
+  padding: 0 0.75em 0 0.75em !important;
+}
+
+/* Estilo para el placeholder */
+::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.8;
+}
+
+/* Estilos para los contenedores de búsqueda */
+.search-container,
+.mat-toolbar,
+.mat-toolbar-row,
+.mat-toolbar-single-row,
+.mat-toolbar-multiple-rows,
+.mat-toolbar-row,
+[class*="search"],
+[class*="Search"],
+[class*="-search"],
+[class*="-Search"] {
+  background-color: var(--container-bg) !important;
+}
+
+/* Asegurar que los botones dentro de los contenedores de búsqueda mantengan su estilo */
+.search-container button,
+.mat-toolbar button {
+  background-color: transparent !important;
+}
+
+/* Ajustes para los inputs dentro de los contenedores de búsqueda */
+.search-container input,
+.mat-toolbar input,
+input[type="text"][placeholder*="Buscar"] {
+  background-color: var(--filter-bg) !important; /* #B0C7D3 */
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 8px 16px !important;
+  color: var(--text-color) !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+}
+
+/* Estilo para el foco del input */
+.search-container input:focus,
+.mat-toolbar input:focus,
+input[type="text"][placeholder*="Buscar"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.3) !important;
+}
+
+/* Asegurar que los iconos dentro de los contenedores de búsqueda sean visibles */
+.search-container .mat-icon,
+.mat-toolbar .mat-icon {
+  color: var(--text-muted) !important;
+}
+
+/* Estilos para los contenedores de página */
+.page-container,
+[class*="page-container"],
+[class*="pageContainer"],
+[class*="page_container"],
+.mat-sidenav-content > div:not(.mat-toolbar),
+.router-outlet-container,
+.app-content {
+  background-color: var(--container-bg) !important;
+  min-height: calc(100vh - 64px); /* Ajustar según la altura del header */
+  padding: 24px;
+  margin: 0 auto;
+  max-width: 1400px;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 959px) {
+  .page-container,
+  [class*="page-container"],
+  [class*="pageContainer"],
+  [class*="page_container"],
+  .mat-sidenav-content > div:not(.mat-toolbar),
+  .router-outlet-container,
+  .app-content {
+    padding: 16px;
+    margin: 8px;
+    border-radius: calc(var(--border-radius) / 2);
+  }
+}
+
+/* Asegurar que el contenido principal no tenga márgenes no deseados */
+.mat-sidenav-container {
+  background-color: var(--primary-color) !important;
+}
+
+/* Estilos para el contenido dentro de los contenedores de página */
+.page-content {
+  padding: 16px 0;
+}
+
+/* Ajustes para los títulos de página */
+.page-title {
+  color: var(--secondary-color);
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 1.75rem;
+}
+
+/* Estilos para las secciones dentro de los contenedores */
+.page-section {
+  margin-bottom: 32px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Ajustes para el pie de página dentro de los contenedores */
+.page-footer {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--bg-light);
+  text-align: right;
+}
+
+/* Contenedor principal de pedidos */
+.orders-container {
+  width: 100%;
+  max-width: 1803px;
+  min-height: 689px;
+  background-color: var(--bg-light); /* #EAEAEA */
+  border-radius: 24px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+  position: relative;
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1920px) {
+  .orders-container {
+    width: calc(100% - 122px); /* 61px de margen a cada lado */
+    margin: 0 61px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .orders-container {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .orders-container {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+}
+
+/* Estilos para la barra de búsqueda dentro del contenedor */
+.orders-container .search-container {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+/* Ajustes para la tabla de pedidos */
+.orders-container app-orders-table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.orders-container .orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Asegurar que el contenedor de la tabla sea responsive */
+.orders-container .orders-list {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Estilo para el título de la sección */
+.orders-container h2 {
+  color: var(--secondary-color);
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}

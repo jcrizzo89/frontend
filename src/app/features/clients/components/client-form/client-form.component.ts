@@ -25,28 +25,46 @@ export class ClientFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.client) {
       this.isEditing = true;
-      this.clientForm.patchValue(this.client);
+      this.clientForm.patchValue({
+        nombre: this.client.nombre,
+        telefono: this.client.telefono,
+        domicilio: this.client.domicilio,
+        observaciones: this.client.observaciones,
+        zona: this.client.zona?.id || '',
+        tipoBotellon: this.client.tipoBotellon,
+        tipoCliente: this.client.tipoCliente,
+        alerta: this.client.alerta,
+        cantLlamadas: this.client.cantLlamadas,
+        fIngreso: this.client.fIngreso?.split('T')[0] || '', // para input type="date"
+        latitudEntrega: this.client.latitudEntrega,
+        longitudEntrega: this.client.longitudEntrega,
+        linkMaps: this.client.linkMaps
+      });
     }
   }
 
   createForm(): FormGroup {
     return this.fb.group({
-      photo: [''],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{4} [0-9]{6}$')]],
-      name: ['', Validators.required],
-      address: ['', Validators.required],
-      mapLink: [''],
-      observations: [''],
-      zone: ['', Validators.required],
-      bottleType: ['Grande', Validators.required],
-      type: ['Bueno', Validators.required]
+      nombre: ['', Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{4} [0-9]{6}$')]],
+      domicilio: ['', Validators.required],
+      observaciones: [''],
+      zona: ['', Validators.required],
+      tipoBotellon: ['', Validators.required],
+      tipoCliente: ['', Validators.required],
+      alerta: [false, Validators.required],
+      cantLlamadas: [0, [Validators.required, Validators.min(0)]],
+      fIngreso: ['', Validators.required],
+      latitudEntrega: ['', Validators.required],
+      longitudEntrega: ['', Validators.required],
+      linkMaps: ['', Validators.pattern(/^https?:\/\/.*$/)]
     });
   }
 
   onSubmit(): void {
     if (this.clientForm.valid) {
       const clientData = this.clientForm.value;
-      
+
       if (this.isEditing) {
         this.clientService.updateClient(this.client.id, clientData)
           .subscribe(updatedClient => {

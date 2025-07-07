@@ -1,14 +1,19 @@
 // features/admin/dashboard/dashboard.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
 import { OrderCardComponent } from './components/order-card/order-card.component';
 import { StatsPanelComponent } from './components/stats-panel/stats-panel.component';
 import { OrdersTableComponent } from './components/orders-table/orders-table.component';
-import { Order } from './models/order.model';
+
+import { EstadoPedido, Order } from './models/order.model';
+import { OrderService } from './services/order.services';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -23,182 +28,113 @@ import { Order } from './models/order.model';
     FormsModule,
     OrderCardComponent,
     StatsPanelComponent,
-    OrdersTableComponent
+    OrdersTableComponent,
   ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   currentTime = new Date();
   searchQuery = '';
-  currentFilter: 'all' | 'pendiente' | 'entregado' = 'all';
-  
-  orders: Order[] = [
-    {
-      id: '0983429271',
-      phone: '0983429271',
-      clientName: 'ESCUELA FE Y ALEGRIA',
-      address: 'Olmedo y Cuba - Zona 14',
-      notes: 'Porton madera esta más casa 2 aguas',
-      products: '3 botellones azules',
-      zone: 'Zona 14',
-      time: '15:36',
-      date: '05/11/2024',
-      channel: 'whatsapp',
-      status: 'pendiente',
-      highlighted: true,
-      orderCount: '85 pedidos - cliente bueno'
-    },
-    {
-      id: '0985 123048',
-      phone: '0985 123048',
-      clientName: 'MIRA MADERA',
-      address: 'SAN ANDRES Y ATAHUALPA "PRIMAVERA"',
-      notes: 'Azul 3P Enfriada Porton negro junto a cancha',
-      products: '2 botellones transparentes',
-      zone: 'H',
-      time: '16:08:16',
-      date: '05/11/2024',
-      channel: 'whatsapp',
-      status: 'pendiente',
-      highlighted: false
-    },
-    {
-      id: '0985 123048',
-      phone: '0985 123048',
-      clientName: 'MIRA MADERA',
-      address: 'SAN ANDRES Y ATAHUALPA "PRIMAVERA"',
-      notes: 'Azul 3P Enfriada Porton negro junto a cancha zur',
-      products: '3 botellones azules',
-      zone: 'M',
-      time: '16:08:16',
-      date: '05/11/2024',
-      channel: 'phone',
-      status: 'pendiente',
-      highlighted: false
-    },
-    {
-      id: '0985 123048',
-      phone: '0985 123048',
-      clientName: 'MIRA MADERA',
-      address: 'SAN ANDRES Y ATAHUALPA "PRIMAVERA"',
-      notes: 'Azul 3P Enfriada Porton negro junto a cancha',
-      products: '1 botellon azul',
-      zone: 'H',
-      time: '16:08:16',
-      date: '05/11/2024',
-      channel: 'phone',
-      status: 'entregado',
-      highlighted: false
-    },
-    {
-      id: '0985 123048',
-      phone: '0985 123048',
-      clientName: 'MIRA MADERA',
-      address: 'SAN ANDRES Y ATAHUALPA "PRIMAVERA"',
-      notes: 'Azul 3P Enfriada Porton negro junto a cancha',
-      products: '4 botellones azul llave',
-      zone: 'H',
-      time: '16:08:16',
-      date: '05/11/2024',
-      channel: 'whatsapp',
-      status: 'pendiente',
-      highlighted: false
-    },
-    {
-      id: '0985 123048',
-      phone: '0985 123048',
-      clientName: 'MIRA MADERA',
-      address: 'SAN ANDRES Y ATAHUALPA "PRIMAVERA"',
-      notes: 'Azul 3P Enfriada Porton negro junto a cancha',
-      products: '1 botellon azul',
-      zone: 'H',
-      time: '16:08:16',
-      date: '05/11/2024',
-      channel: 'phone',
-      status: 'pendiente',
-      highlighted: false
-    }
-  ];
+  currentFilter: 'all' | EstadoPedido = 'all';
 
+  orders: Order[] = [];
   stats = {
-    unregisteredOrders: 3,
+    unregisteredOrders: 0,
     repeatedOrders: 0
   };
 
-  get activeOrders() {
+  private subscriptions = new Subscription();
+
+  constructor(private orderService: OrderService) {}
+
+  ngOnInit(): void {
+    this.loadOrders();
+    setInterval(() => (this.currentTime = new Date()), 1000);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  loadOrders(): void {
+    const sub = this.orderService.getAllOrders().subscribe({
+      next: (orders) => (this.orders = orders),
+      error: (err) => console.error('Error loading orders:', err)
+    });
+    this.subscriptions.add(sub);
+  }
+
+  get activeOrders(): Order[] {
     return this.orders.slice(0, 2);
   }
 
   get filteredOrders(): Order[] {
-    let orders = [...this.orders];
-    
+    let filtered = [...this.orders];
+
     if (this.searchQuery) {
       const query = this.searchQuery.toLowerCase();
-      orders = orders.filter(order => 
+      filtered = filtered.filter(order =>
         order.clientName.toLowerCase().includes(query) ||
-        order.phone.includes(query) ||
-        order.address.toLowerCase().includes(query)
+        order.phone?.includes(query) ||
+        order.address?.toLowerCase().includes(query)
       );
     }
 
     if (this.currentFilter !== 'all') {
-      orders = orders.filter(order => order.status === this.currentFilter);
+      filtered = filtered.filter(order => order.estado === this.currentFilter);
     }
 
-    return orders;
+    return filtered;
   }
 
-  setFilter(filter: 'all' | 'pendiente' | 'entregado'): void {
+  setFilter(filter: 'all' | 'Pendiente' | 'Entregado'): void {
     this.currentFilter = filter;
   }
 
-  ngOnInit() {
-    // Update time every second
-    setInterval(() => {
-      this.currentTime = new Date();
-    }, 1000);
-  }
-
   onEditOrder(order: Order): void {
-    // Find and update the order in the list
-    const index = this.orders.findIndex(o => o.id === order.id);
-    if (index !== -1) {
-      this.orders[index] = { ...order };
-      console.log('Order updated:', order);
-    }
+    const sub = this.orderService.updateOrder(order.id, order).subscribe({
+      next: (updated) => {
+        const index = this.orders.findIndex(o => o.id === updated.id);
+        if (index !== -1) this.orders[index] = updated;
+        console.log('Order updated:', updated);
+      },
+      error: (err) => console.error('Error updating order:', err)
+    });
+    this.subscriptions.add(sub);
   }
 
-  editOrder(orderId: string) {
-    console.log('Editing order:', orderId);
-    // Implement edit order logic
+  deleteOrder(orderId: string): void {
+    const sub = this.orderService.deleteOrder(orderId).subscribe({
+      next: () => {
+        this.orders = this.orders.filter(o => o.id !== orderId);
+        console.log('Order deleted:', orderId);
+      },
+      error: (err) => console.error('Error deleting order:', err)
+    });
+    this.subscriptions.add(sub);
   }
 
-  deleteOrder(orderId: string) {
-    console.log('Deleting order:', orderId);
-    // Implement delete order logic
+  deleteSelected(): void {
+    console.log('Deleting selected orders...');
+    // TODO: Implementar lógica de eliminación múltiple
   }
 
-  deleteSelected() {
-    console.log('Deleting selected orders');
-    // Implement delete selected logic
+  addNewOrder(): void {
+    console.log('Adding new order...');
+    // TODO: Implementar lógica para agregar un nuevo pedido
   }
 
-  addNewOrder() {
-    console.log('Adding new order');
-    // Implement add new order logic
-  }
-
-  onAddProgress(orderId: string) {
+  onAddProgress(orderId: string): void {
     const order = this.orders.find(o => o.id === orderId);
     if (order) {
       console.log('Adding progress to order:', order);
-      // Implement progress logic here
+      // TODO: Implementar lógica de progreso
     }
   }
 
-  onViewDetails() {
-    console.log('Viewing stats details');
+  onViewDetails(): void {
+    console.log('Viewing stats details...');
     console.log('Unregistered orders:', this.stats.unregisteredOrders);
     console.log('Repeated orders:', this.stats.repeatedOrders);
-    // Implement detailed stats view logic
+    // TODO: Implementar lógica para mostrar detalles de estadísticas
   }
 }

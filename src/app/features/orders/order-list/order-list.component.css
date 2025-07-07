@@ -1,0 +1,139 @@
+/* Contenedor principal */
+.orders-container {
+  width: 100%;
+  max-width: 1803px;
+  min-height: 689px;
+  background-color: #EAEAEA;
+  border-radius: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Barra de búsqueda */
+.search-container {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+}
+
+.search-input mat-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.search-input input {
+  width: 100%;
+  padding: 12px 16px 12px 40px;
+  border: none;
+  border-radius: 20px;
+  background-color: #B0C7D3;
+  font-size: 14px;
+  color: #333;
+}
+
+.search-input input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.3);
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+  background-color: #32A2DA;
+  color: white;
+}
+
+.filter-btn mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Tabla de pedidos */
+app-orders-table {
+  display: block;
+  width: 100%;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+  .orders-container {
+    padding: 16px;
+  }
+  
+  .search-bar {
+    gap: 12px;
+  }
+  
+  .filters {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 12px;
+    border-radius: 16px;
+  }
+  
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .search-input {
+    min-width: 100%;
+  }
+}

@@ -10,19 +10,19 @@
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="phone" placeholder="0985 123456">
-        <mat-error *ngIf="clientForm.get('phone')?.errors?.['required']">
+        <input matInput formControlName="telefono" placeholder="0985 123456">
+        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['required']">
           El teléfono es requerido
         </mat-error>
-        <mat-error *ngIf="clientForm.get('phone')?.errors?.['pattern']">
+        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['pattern']">
           Formato inválido. Use: 0985 123456
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Nombre</mat-label>
-        <input matInput formControlName="name" placeholder="Nombre del cliente">
-        <mat-error *ngIf="clientForm.get('name')?.errors?.['required']">
+        <input matInput formControlName="nombre" placeholder="Nombre del cliente">
+        <mat-error *ngIf="clientForm.get('nombre')?.errors?.['required']">
           El nombre es requerido
         </mat-error>
       </mat-form-field>
@@ -31,8 +31,8 @@
     <div class="form-row">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Dirección</mat-label>
-        <input matInput formControlName="address" placeholder="Dirección completa">
-        <mat-error *ngIf="clientForm.get('address')?.errors?.['required']">
+        <input matInput formControlName="domicilio" placeholder="Dirección completa">
+        <mat-error *ngIf="clientForm.get('domicilio')?.errors?.['required']">
           La dirección es requerida
         </mat-error>
       </mat-form-field>
@@ -40,50 +40,100 @@
 
     <div class="form-row">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Link del Mapa</mat-label>
-        <input matInput formControlName="mapLink" placeholder="https://www.google.com/maps?q=...">
-      </mat-form-field>
-    </div>
-
-    <div class="form-row">
-      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Observaciones</mat-label>
-        <textarea matInput formControlName="observations" placeholder="Detalles adicionales del cliente"></textarea>
+        <textarea matInput formControlName="observaciones" placeholder="Detalles adicionales del cliente"></textarea>
       </mat-form-field>
     </div>
 
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Zona</mat-label>
-        <mat-select formControlName="zone">
-          <mat-option value="14">Zona 14</mat-option>
-          <!-- Agregar más zonas según sea necesario -->
+        <mat-select formControlName="zona">
+          <mat-option value="zona-14-id">Zona 14</mat-option>
         </mat-select>
-        <mat-error *ngIf="clientForm.get('zone')?.errors?.['required']">
+        <mat-error *ngIf="clientForm.get('zona')?.errors?.['required']">
           La zona es requerida
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Tipo de Botellón</mat-label>
-        <mat-select formControlName="bottleType">
+        <mat-select formControlName="tipoBotellon">
           <mat-option value="Grande">Grande</mat-option>
           <mat-option value="Pequeño">Pequeño</mat-option>
         </mat-select>
-        <mat-error *ngIf="clientForm.get('bottleType')?.errors?.['required']">
+        <mat-error *ngIf="clientForm.get('tipoBotellon')?.errors?.['required']">
           El tipo de botellón es requerido
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Tipo de Cliente</mat-label>
-        <mat-select formControlName="type">
+        <mat-select formControlName="tipoCliente">
           <mat-option value="Bueno">Bueno</mat-option>
           <mat-option value="Regular">Regular</mat-option>
           <mat-option value="Malo">Malo</mat-option>
         </mat-select>
-        <mat-error *ngIf="clientForm.get('type')?.errors?.['required']">
+        <mat-error *ngIf="clientForm.get('tipoCliente')?.errors?.['required']">
           El tipo de cliente es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>¿Alerta?</mat-label>
+        <mat-select formControlName="alerta">
+          <mat-option [value]="true">Sí</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clientForm.get('alerta')?.errors?.['required']">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cantidad de Llamadas</mat-label>
+        <input matInput type="number" formControlName="cantLlamadas" min="0">
+        <mat-error *ngIf="clientForm.get('cantLlamadas')?.errors?.['required']">
+          Este campo es requerido
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('cantLlamadas')?.errors?.['min']">
+          Debe ser 0 o más
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de Ingreso</mat-label>
+        <input matInput type="date" formControlName="fIngreso">
+        <mat-error *ngIf="clientForm.get('fIngreso')?.errors?.['required']">
+          La fecha de ingreso es requerida
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Latitud de Entrega</mat-label>
+        <input matInput type="number" formControlName="latitudEntrega" step="any">
+        <mat-error *ngIf="clientForm.get('latitudEntrega')?.errors?.['required']">
+          La latitud es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Longitud de Entrega</mat-label>
+        <input matInput type="number" formControlName="longitudEntrega" step="any">
+        <mat-error *ngIf="clientForm.get('longitudEntrega')?.errors?.['required']">
+          La longitud es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Link del Mapa</mat-label>
+        <input matInput formControlName="linkMaps" placeholder="https://www.google.com/maps?q=...">
+        <mat-error *ngIf="clientForm.get('linkMaps')?.errors?.['pattern']">
+          El link no tiene un formato válido
         </mat-error>
       </mat-form-field>
     </div>

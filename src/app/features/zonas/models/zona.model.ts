@@ -1,8 +1,9 @@
+// src/app/dashboard/models/zona.model.ts
+
 export interface Zona {
-  id: number;
-  vehiculo: number;
-  conductor: string;
-  descripcion: string;
-  coordenadas: string;
-  seleccionada?: boolean;
+  id?: string; // ← idZona en backend
+  zona: string;
+  descripcion?: string;
+  activa: boolean;
+  barrios: string[];
 }

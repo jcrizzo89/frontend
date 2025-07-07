@@ -1,61 +1,59 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { Observable, map } from 'rxjs';
+import { Client } from '../models/client.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = `${environment.apiUrl}/clients`;
+  private apiUrl = 'http://localhost:3001/clientes';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getClients(): Observable<any[]> {
-    // Por ahora retornamos datos de prueba
-    return of([
-      {
-        id: 1,
-        photo: 'assets/images/client1.jpg',
-        phone: '0985 123456',
-        name: 'MIRA MADERA',
-        registrationDate: new Date('2024-02-08'),
-        address: 'SAN ANDRES Y ATAHUALPA - PRIMAVERA',
-        mapLink: 'https://www.google.com/maps?q=-0.123,78.456',
-        observations: 'Portón madera esquina casa estilo colonial y portón negro',
-        zone: '14',
-        bottleType: 'Grande',
-        type: 'Bueno'
-      },
-      {
-        id: 2,
-        photo: 'assets/images/client2.jpg',
-        phone: '0985 789012',
-        name: 'ESCUELA FE Y ALEGRIA',
-        registrationDate: new Date('2024-02-07'),
-        address: 'OLMEDO Y CUBA',
-        mapLink: 'https://www.google.com/maps?q=-0.124,78.457',
-        observations: 'Portón azul junto a cancha de escuela',
-        zone: '14',
-        bottleType: 'Grande',
-        type: 'Regular'
-      }
-    ]);
+  getAllClients(): Observable<Client[]> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map((clients) => clients.map(c => this.mapClient(c)))
+    );
   }
 
-  getClient(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  getClientById(id: string): Observable<Client> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(client => this.mapClient(client))
+    );
   }
 
-  createClient(client: any): Observable<any> {
-    return this.http.post(this.apiUrl, client);
+  createClient(client: Partial<Client>): Observable<Client> {
+    return this.http.post<Client>(this.apiUrl, client);
   }
 
-  updateClient(id: number, client: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, client);
+  updateClient(id: string, client: Partial<Client>): Observable<Client> {
+    return this.http.put<Client>(`${this.apiUrl}/${id}`, client);
   }
 
-  deleteClient(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteClient(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  updateClientLocation(id: string, latitud: number, longitud: number): Observable<Client> {
+    return this.http.put<Client>(`${this.apiUrl}/${id}/ubicacion`, { latitud, longitud });
+  }
+
+  private mapClient(c: any): Client {
+    return {
+      id: c.idCliente,
+      nombre: c.nombre,
+      telefono: c.telefono,
+      observaciones: c.observaciones,
+      alerta: c.alerta,
+      cantLlamadas: c.cantLlamadas,
+      fIngreso: c.fIngreso,
+      domicilio: c.domicilio,
+      zona: c.zona?.nombre || '',
+      pedidos: c.pedidos?.length || 0,
+      llamadas: c.llamadas?.length || 0,
+      latitudEntrega: c.latitudEntrega,
+      longitudEntrega: c.longitudEntrega
+    };
   }
 }

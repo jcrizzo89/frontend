@@ -12,17 +12,17 @@
           <mat-icon>search</mat-icon>
           <input type="text" placeholder="Buscar pedidos..." [(ngModel)]="searchQuery">
         </div>
-        
+
         <div class="filters">
           <button class="filter-btn" [class.active]="currentFilter === 'all'" (click)="setFilter('all')">
             <mat-icon>list</mat-icon>
             Todos
           </button>
-          <button class="filter-btn" [class.active]="currentFilter === 'pendiente'" (click)="setFilter('pendiente')">
+          <button class="filter-btn" [class.active]="currentFilter === 'Pendiente'" (click)="setFilter('Pendiente')">
             <mat-icon>pending</mat-icon>
             Pendientes
           </button>
-          <button class="filter-btn" [class.active]="currentFilter === 'entregado'" (click)="setFilter('entregado')">
+          <button class="filter-btn" [class.active]="currentFilter === 'Entregado'" (click)="setFilter('Entregado')">
             <mat-icon>check_circle</mat-icon>
             Entregados
           </button>

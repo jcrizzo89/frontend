@@ -48,43 +48,41 @@ export class ZonaEditComponent implements OnInit {
 
   initForm(): void {
     const zona = this.data.zona || {
-      id: 0,
-      vehiculo: 0,
-      conductor: '',
+      id: '',
+      zona: 0,
       descripcion: '',
-      coordenadas: ''
+      activa: true,
+      barrios: []
     };
 
     this.zonaForm = this.fb.group({
       id: [zona.id],
-      vehiculo: [zona.vehiculo, [Validators.required, Validators.min(1)]],
-      conductor: [zona.conductor, Validators.required],
+      zona: [zona.zona, [Validators.required, Validators.min(1)]],
       descripcion: [zona.descripcion, Validators.required],
-      coordenadas: [zona.coordenadas, Validators.required]
+      activa: [zona.activa],
     });
   }
 
-  onSubmit(): void {
-    if (this.zonaForm.valid) {
-      const zona: Zona = this.zonaForm.value;
 
-      if (this.isNew) {
-        this.zonasService.addZona(zona).subscribe({
-          next: (result) => {
-            this.dialogRef.close(result);
-          },
-          error: (err) => console.error('Error al agregar zona:', err)
-        });
-      } else {
-        this.zonasService.updateZona(zona).subscribe({
-          next: (result) => {
-            this.dialogRef.close(result);
-          },
-          error: (err) => console.error('Error al actualizar zona:', err)
-        });
-      }
+onSubmit(): void {
+  if (this.zonaForm.valid) {
+    const zona: Zona = this.zonaForm.value;
+
+    if (this.isNew) {
+      this.zonasService.addZona(zona).subscribe({
+        next: (result) => this.dialogRef.close(result),
+        error: (err) => console.error('Error al agregar zona:', err)
+      });
+    } else {
+      this.zonasService.updateZona(zona.id!.toString(), zona).subscribe({
+        next: (result) => this.dialogRef.close(result),
+        error: (err) => console.error('Error al actualizar zona:', err)
+      });
     }
   }
+}
+
+
 
   onCancel(): void {
     this.dialogRef.close();

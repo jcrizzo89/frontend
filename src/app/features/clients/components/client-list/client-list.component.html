@@ -5,86 +5,76 @@
   </mat-form-field>
 
   <table mat-table [dataSource]="dataSource" matSort>
-    <!-- Foto Column -->
-    <ng-container matColumnDef="photo">
-      <th mat-header-cell *matHeaderCellDef> Foto </th>
-      <td mat-cell *matCellDef="let client">
-        <img [src]="client.photo" alt="Foto cliente" class="client-photo">
-      </td>
+
+    <!-- Cliente Column -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+      <td mat-cell *matCellDef="let client"> {{client.nombre}} </td>
     </ng-container>
 
-    <!-- Contacto Column -->
-    <ng-container matColumnDef="contact">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono y cliente </th>
-      <td mat-cell *matCellDef="let client">
-        <div class="client-info">
-          <span class="phone">{{client.phone}}</span>
-          <span class="name">{{client.name}}</span>
-        </div>
-      </td>
-    </ng-container>
-
-    <!-- Fecha Registro Column -->
-    <ng-container matColumnDef="registrationDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ingresado el </th>
-      <td mat-cell *matCellDef="let client">
-        {{client.registrationDate | date:'dd/MM/yyyy'}}
-      </td>
-    </ng-container>
-
-    <!-- Destino Column -->
-    <ng-container matColumnDef="destination">
-      <th mat-header-cell *matHeaderCellDef> Destino y observaciones </th>
-      <td mat-cell *matCellDef="let client">
-        <div class="destination-info">
-          <span>{{client.address}}</span>
-          <a [href]="client.mapLink" target="_blank" class="map-link">Ver en mapa</a>
-          <span class="observations">{{client.observations}}</span>
-        </div>
-      </td>
+    <!-- Teléfono Column -->
+    <ng-container matColumnDef="telefono">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
+      <td mat-cell *matCellDef="let client"> {{client.telefono}} </td>
     </ng-container>
 
     <!-- Zona Column -->
-    <ng-container matColumnDef="zone">
+    <ng-container matColumnDef="zona">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
-      <td mat-cell *matCellDef="let client"> {{client.zone}} </td>
+      <td mat-cell *matCellDef="let client"> {{client.zona}} </td>
     </ng-container>
 
-    <!-- Tipo Botellón Column -->
-    <ng-container matColumnDef="bottleType">
-      <th mat-header-cell *matHeaderCellDef> Tipo de botellón </th>
-      <td mat-cell *matCellDef="let client"> {{client.bottleType}} </td>
-    </ng-container>
-
-    <!-- Historial Column -->
-    <ng-container matColumnDef="history">
-      <th mat-header-cell *matHeaderCellDef> Historial </th>
+    <!-- Domicilio Column -->
+    <ng-container matColumnDef="domicilio">
+      <th mat-header-cell *matHeaderCellDef> Domicilio </th>
       <td mat-cell *matCellDef="let client">
-        <a mat-button color="primary">Ver historial completo</a>
+        {{client.domicilio || '—'}}
       </td>
     </ng-container>
 
-    <!-- Tipo Cliente Column -->
-    <ng-container matColumnDef="clientType">
-      <th mat-header-cell *matHeaderCellDef> Tipo de cliente </th>
+    <!-- Fecha Ingreso Column -->
+    <ng-container matColumnDef="fIngreso">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ingreso </th>
       <td mat-cell *matCellDef="let client">
-        <mat-chip [color]="client.type === 'Bueno' ? 'primary' : 'warn'" selected>
-          {{client.type}}
-        </mat-chip>
+        {{client.fIngreso | date:'dd/MM/yyyy'}}
       </td>
     </ng-container>
 
-    <!-- Detalles Column -->
-    <ng-container matColumnDef="details">
-      <th mat-header-cell *matHeaderCellDef> Ficha </th>
+    <!-- Llamadas Column -->
+    <ng-container matColumnDef="llamadas">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Llamadas </th>
       <td mat-cell *matCellDef="let client">
-        <button mat-button color="primary">Ver ficha completa</button>
+        {{client.llamadas}}
+      </td>
+    </ng-container>
+
+    <!-- Pedidos Column -->
+    <ng-container matColumnDef="pedidos">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Pedidos </th>
+      <td mat-cell *matCellDef="let client">
+        {{client.pedidos}}
+      </td>
+    </ng-container>
+
+    <!-- Alerta Column -->
+    <ng-container matColumnDef="alerta">
+      <th mat-header-cell *matHeaderCellDef> Alerta </th>
+      <td mat-cell *matCellDef="let client">
+        <mat-icon color="warn" *ngIf="client.alerta">warning</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Observaciones Column -->
+    <ng-container matColumnDef="observaciones">
+      <th mat-header-cell *matHeaderCellDef> Observaciones </th>
+      <td mat-cell *matCellDef="let client">
+        {{client.observaciones || '—'}}
       </td>
     </ng-container>
 
     <!-- Acciones Column -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Editar </th>
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let client">
         <button mat-icon-button color="primary" (click)="onEdit(client)">
           <mat-icon>edit</mat-icon>
@@ -95,11 +85,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- Row shown when there is no matching data. -->
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="10">No se encontraron clientes con el filtro "{{input.value}}"</td>
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página de clientes"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Paginador de clientes"></mat-paginator>
 </div>

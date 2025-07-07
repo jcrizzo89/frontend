@@ -4,10 +4,11 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { Distribuidor, DistribuidorPedido } from './models/distribuidor.model';
+import { Distribuidor } from './models/distribuidor.model';
 import { DistribuidoresService } from './services/distribuidores.service';
 import { DistribuidorDetailComponent } from './components/distribuidor-detail/distribuidor-detail.component';
 import { PedidosHistorialComponent } from './components/pedidos-historial/pedidos-historial.component';
+import { Order } from '../admin/dashboard/models/order.model';
 
 @Component({
   selector: 'app-distribuidores',
@@ -27,7 +28,7 @@ import { PedidosHistorialComponent } from './components/pedidos-historial/pedido
 })
 export class DistribuidoresComponent implements OnInit {
   distribuidor: Distribuidor | null = null;
-  pedidosHistorial: DistribuidorPedido[] = [];
+  pedidosHistorial: Order[] = [];
   loading = true;
   error: string | null = null;
   successMessage: string | null = null;
@@ -100,7 +101,7 @@ export class DistribuidoresComponent implements OnInit {
     });
   }
 
-  onPedidoUpdated(pedido: DistribuidorPedido) {
+  onPedidoUpdated(pedido: Order) {
     this.loading = true;
     this.error = null;
     this.successMessage = null;
@@ -122,7 +123,7 @@ export class DistribuidoresComponent implements OnInit {
     });
   }
 
-  onExportPedido(pedido: DistribuidorPedido) {
+  onExportPedido(pedido: Order) {
     this.loading = true;
     this.error = null;
     this.successMessage = null;

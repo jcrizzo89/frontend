@@ -1,1 +1,31 @@
-<p>order-list works!</p>
+<div class="orders-container">
+  <div class="search-container">
+    <div class="search-bar">
+      <div class="search-input">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Buscar pedidos..." [(ngModel)]="searchTerm" (input)="onSearch()">
+      </div>
+      <div class="filters">
+        <button class="filter-btn" [class.active]="filter === 'all'" (click)="setFilter('all')">
+          <mat-icon>list</mat-icon> Todos
+        </button>
+        <button class="filter-btn" [class.active]="filter === 'pending'" (click)="setFilter('pending')">
+          <mat-icon>pending</mat-icon> Pendientes
+        </button>
+        <button class="filter-btn" [class.active]="filter === 'delivered'" (click)="setFilter('delivered')">
+          <mat-icon>check_circle</mat-icon> Entregados
+        </button>
+      </div>
+      <div class="action-buttons">
+        <button mat-icon-button matTooltip="Filtros">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+        <button mat-icon-button (click)="refreshOrders()" matTooltip="Actualizar">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-orders-table [orders]="filteredOrders"></app-orders-table>
+</div>

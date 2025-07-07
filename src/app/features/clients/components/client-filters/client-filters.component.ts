@@ -7,6 +7,9 @@ export interface ClientFilters {
   zone: string;
   bottleType: string;
   clientType: string;
+  alerta: boolean | '';
+  cantLlamadasMin: number | null;
+  cantLlamadasMax: number | null;
   dateRange: {
     start: Date | null;
     end: Date | null;
@@ -20,10 +23,10 @@ export interface ClientFilters {
 })
 export class ClientFiltersComponent implements OnInit {
   @Output() filtersChanged = new EventEmitter<ClientFilters>();
-  
+
   filterForm: FormGroup;
   showAdvancedFilters = false;
-  
+
   zones = ['14', '15', '16', '17', '18'];
   bottleTypes = ['Grande', 'Pequeño'];
   clientTypes = ['Bueno', 'Regular', 'Malo'];
@@ -34,6 +37,9 @@ export class ClientFiltersComponent implements OnInit {
       zone: [''],
       bottleType: [''],
       clientType: [''],
+      alerta: [''],
+      cantLlamadasMin: [null],
+      cantLlamadasMax: [null],
       dateRange: this.fb.group({
         start: [null],
         end: [null]
@@ -42,15 +48,9 @@ export class ClientFiltersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Suscribirse a cambios en el formulario con debounce
     this.filterForm.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      )
-      .subscribe(filters => {
-        this.filtersChanged.emit(filters);
-      });
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(filters => this.filtersChanged.emit(filters));
   }
 
   toggleAdvancedFilters(): void {
