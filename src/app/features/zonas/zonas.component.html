@@ -73,7 +73,7 @@
           <!-- Filas -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-              [class.selected-row]="selectedZona && selectedZona.id === row.id"
+              [class.selected-row]="selectedZona && selectedZona.idZona === row.idZona"
               (click)="onSelectZona(row)">
           </tr>
         </table>
@@ -85,9 +85,9 @@
       <div class="map-container">
         <!-- Zona seleccionada -->
         <div class="map-card" *ngIf="selectedZona">
-          <h2 class="map-title">Mapa zona {{ selectedZona.id }}</h2>
+          <h2 class="map-title">Mapa zona {{ selectedZona.idZona }}</h2>
           <div class="map-image-wrapper">
-            <img [src]="getMapUrl()" [alt]="'Mapa de la zona ' + selectedZona.id" class="map-image">
+            <img [src]="getMapUrl()" [alt]="'Mapa de la zona ' + selectedZona.idZona" class="map-image">
           </div>
         </div>
 

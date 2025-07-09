@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ClientService } from '../../services/client.service';
 import { ClientFilters } from '../client-filters/client-filters.component';
-import { Client } from '../../models/client.model';
+import { Cliente } from '../../models/client.model';
 
 @Component({
   selector: 'app-client-list',
@@ -12,16 +12,16 @@ import { Client } from '../../models/client.model';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit, AfterViewInit {
-  @Output() editClient = new EventEmitter<Client>();
+  @Output() editClient = new EventEmitter<Cliente>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   displayedColumns: string[] = [
-    'nombre', 'telefono', 'zona', 'domicilio', 'fIngreso',
+    'nombre', 'telefono', 'zona', 'ubicacion', 'fIngreso',
     'llamadas', 'pedidos', 'alerta', 'observaciones', 'actions'
   ];
-  dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>();
-  originalData: Client[] = [];
+  dataSource: MatTableDataSource<Cliente> = new MatTableDataSource<Cliente>();
+  originalData: Cliente[] = [];
 
   constructor(private clientService: ClientService) {}
 
@@ -35,13 +35,13 @@ export class ClientListComponent implements OnInit, AfterViewInit {
   }
 
   loadClients(): void {
-    this.clientService.getAllClients().subscribe(clients => {
+    this.clientService.getAll().subscribe((clients: Cliente[]) => {
       this.originalData = clients;
       this.dataSource.data = clients;
     });
   }
 
-  onEdit(client: Client): void {
+  onEdit(client: Cliente): void {
     this.editClient.emit(client);
   }
 
@@ -53,12 +53,12 @@ export class ClientListComponent implements OnInit, AfterViewInit {
       filteredData = filteredData.filter(client =>
         client.nombre.toLowerCase().includes(term) ||
         client.telefono.toLowerCase().includes(term) ||
-        (client.domicilio || '').toLowerCase().includes(term)
+        (client.ubicaciones?.[0]?.descripcion || '').toLowerCase().includes(term)
       );
     }
 
     if (filters.zone) {
-      filteredData = filteredData.filter(client => client.zona === filters.zone);
+      filteredData = filteredData.filter(client => client.idZona === filters.zone);
     }
 
     if (filters.dateRange?.start || filters.dateRange?.end) {

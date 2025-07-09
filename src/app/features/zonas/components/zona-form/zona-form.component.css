@@ -1,0 +1,56 @@
+.zona-form {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  color: #3f51b5;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+mat-dialog-content {
+  padding: 16px 0 !important;
+  margin: 0 24px;
+}
+
+mat-dialog-actions {
+  padding: 16px 24px !important;
+  margin: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  justify-content: flex-end;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f44336;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.spinner-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.spinner-icon ::ng-deep .mat-progress-spinner circle, 
+.spinner-icon ::ng-deep .mat-spinner circle {
+  stroke: white;
+}
+
+/* Estilos para el textarea */
+textarea {
+  resize: none;
+  min-height: 80px;
+}

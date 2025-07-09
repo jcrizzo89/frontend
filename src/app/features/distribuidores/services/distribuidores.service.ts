@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Distribuidor } from '../models/distribuidor.model';
 import { Order } from '../../admin/dashboard/models/order.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DistribuidoresService {
-  private apiUrl = 'http://localhost:3001/repartidores';
+  private apiUrl = `${environment.apiUrl}/repartidores`;
 
   constructor(private http: HttpClient) {}
 

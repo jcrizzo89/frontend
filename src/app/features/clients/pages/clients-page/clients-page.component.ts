@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientListComponent } from '../../components/client-list/client-list.component';
 import { ClientFilters } from '../../components/client-filters/client-filters.component';
-import { Client } from '../../models/client.model';
+import { Cliente } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class ClientsPageComponent implements OnInit {
   @ViewChild(ClientListComponent) clientList!: ClientListComponent;
 
   showClientForm = false;
-  selectedClient: Client | null = null;
+  selectedClient: Cliente | null = null;
 
   constructor(
     private clientService: ClientService,
@@ -28,7 +28,7 @@ export class ClientsPageComponent implements OnInit {
     this.showClientForm = true;
   }
 
-  onEditClient(client: Client): void {
+  onEditClient(client: Cliente): void {
     this.selectedClient = client;
     this.showClientForm = true;
   }
@@ -38,7 +38,7 @@ export class ClientsPageComponent implements OnInit {
     this.selectedClient = null;
   }
 
-  onClientSaved(client: Client): void {
+  onClientSaved(client: Cliente): void {
     const wasEditing = !!this.selectedClient;
 
     this.showClientForm = false;

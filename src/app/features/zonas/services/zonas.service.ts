@@ -1,15 +1,14 @@
-// src/app/dashboard/services/zonas.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Zona } from '../models/zona.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZonasService {
-  private apiUrl = 'http://localhost:3001/zonas';
+  private apiUrl = `${environment.apiUrl}/zonas`;
 
   constructor(private http: HttpClient) {}
 
@@ -39,11 +38,13 @@ export class ZonasService {
 
   private mapZona(z: any): Zona {
     return {
-      id: z.idZona,
+      idZona: z.idZona || z.id, // Handle both idZona and id for backward compatibility
       zona: z.zona,
       descripcion: z.descripcion,
       activa: z.activa,
-      barrios: z.barrios ?? []
+      barrios: z.barrios ?? [],
+      fechaCreacion: z.fechaCreacion ? new Date(z.fechaCreacion) : new Date(),
+      ultimaActualizacion: z.ultimaActualizacion ? new Date(z.ultimaActualizacion) : undefined
     };
   }
 }

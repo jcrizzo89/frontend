@@ -5,7 +5,7 @@ export interface Order {
   idPedido: string;
   nroPedido: number;
   estado: EstadoPedido;
-  entrada: string; // usar string porque vendrá como ISO string desde el backend
+  entrada: string; // ISO string
   enviar?: string;
   salida?: string;
   despachado: boolean;
@@ -19,9 +19,27 @@ export interface Order {
   historialEstados?: { estado: EstadoPedido; fecha: string }[];
   latitudEntrega?: number;
   longitudEntrega?: number;
-
+  telefono?: string;
+  direccion?: string;
+  detalles?: string;
+  
+  // Alias para compatibilidad con el componente
+  id?: string | number;
+  clientName?: string;
+  destination?: string;
+  orderDetails?: string;
+  phone?: string;
+  status?: string;
+  
   // campos derivados del backend (cliente, zona, repartidor) como strings para simplificación
   clienteNombre?: string;
   zonaNombre?: string;
   repartidorNombre?: string;
+  
+  // Métodos de ayuda
+  getStatus?(): string;
+  getClientName?(): string;
+  getPhone?(): string;
+  getDestination?(): string;
+  getOrderDetails?(): string;
 }

@@ -1,59 +1,91 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { Client } from '../models/client.model';
+import { Observable } from 'rxjs';
+import { Cliente, UbicacionCliente, Llamada } from '../models/client.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'http://localhost:3001/clientes';
+  private apiUrl = `${environment.apiUrl}/clientes`;
 
   constructor(private http: HttpClient) {}
 
-  getAllClients(): Observable<Client[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
-      map((clients) => clients.map(c => this.mapClient(c)))
-    );
+  /**
+   * Obtiene todos los clientes
+   */
+  getAll(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.apiUrl);
   }
 
-  getClientById(id: string): Observable<Client> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
-      map(client => this.mapClient(client))
-    );
+  /**
+   * Obtiene un cliente por su ID
+   */
+  getById(id: string): Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.apiUrl}/${id}`);
   }
 
-  createClient(client: Partial<Client>): Observable<Client> {
-    return this.http.post<Client>(this.apiUrl, client);
+  /**
+   * Crea un nuevo cliente
+   */
+  create(cliente: Omit<Cliente, 'idCliente'>): Observable<Cliente> {
+    return this.http.post<Cliente>(this.apiUrl, cliente);
   }
 
-  updateClient(id: string, client: Partial<Client>): Observable<Client> {
-    return this.http.put<Client>(`${this.apiUrl}/${id}`, client);
+  /**
+   * Actualiza un cliente existente
+   */
+  update(id: string, cliente: Partial<Cliente>): Observable<Cliente> {
+    return this.http.put<Cliente>(`${this.apiUrl}/${id}`, cliente);
   }
 
-  deleteClient(id: string): Observable<void> {
+  /**
+   * Elimina un cliente
+   */
+  delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  updateClientLocation(id: string, latitud: number, longitud: number): Observable<Client> {
-    return this.http.put<Client>(`${this.apiUrl}/${id}/ubicacion`, { latitud, longitud });
+  /**
+   * Obtiene las ubicaciones de un cliente
+   */
+  getUbicaciones(clienteId: string): Observable<UbicacionCliente[]> {
+    return this.http.get<UbicacionCliente[]>(`${this.apiUrl}/${clienteId}/ubicaciones`);
   }
 
-  private mapClient(c: any): Client {
-    return {
-      id: c.idCliente,
-      nombre: c.nombre,
-      telefono: c.telefono,
-      observaciones: c.observaciones,
-      alerta: c.alerta,
-      cantLlamadas: c.cantLlamadas,
-      fIngreso: c.fIngreso,
-      domicilio: c.domicilio,
-      zona: c.zona?.nombre || '',
-      pedidos: c.pedidos?.length || 0,
-      llamadas: c.llamadas?.length || 0,
-      latitudEntrega: c.latitudEntrega,
-      longitudEntrega: c.longitudEntrega
-    };
+  /**
+   * Agrega una nueva ubicación a un cliente
+   */
+  addUbicacion(clienteId: string, ubicacion: Omit<UbicacionCliente, 'idUbicacion' | 'idCliente'>): Observable<UbicacionCliente> {
+    return this.http.post<UbicacionCliente>(`${this.apiUrl}/${clienteId}/ubicaciones`, ubicacion);
+  }
+
+  /**
+   * Actualiza una ubicación de un cliente
+   */
+  updateUbicacion(clienteId: string, ubicacionId: string, ubicacion: Partial<UbicacionCliente>): Observable<UbicacionCliente> {
+    return this.http.put<UbicacionCliente>(`${this.apiUrl}/${clienteId}/ubicaciones/${ubicacionId}`, ubicacion);
+  }
+
+  /**
+   * Elimina una ubicación de un cliente
+   */
+  deleteUbicacion(clienteId: string, ubicacionId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${clienteId}/ubicaciones/${ubicacionId}`);
+  }
+
+  /**
+   * Obtiene el historial de llamadas de un cliente
+   */
+  getLlamadas(clienteId: string): Observable<Llamada[]> {
+    return this.http.get<Llamada[]>(`${this.apiUrl}/${clienteId}/llamadas`);
+  }
+
+  /**
+   * Registra una nueva llamada para un cliente
+   */
+  addLlamada(clienteId: string, llamada: Omit<Llamada, 'idLlamada' | 'idCliente'>): Observable<Llamada> {
+    return this.http.post<Llamada>(`${this.apiUrl}/${clienteId}/llamadas`, llamada);
   }
 }

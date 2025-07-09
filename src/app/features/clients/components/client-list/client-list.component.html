@@ -21,14 +21,14 @@
     <!-- Zona Column -->
     <ng-container matColumnDef="zona">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Zona </th>
-      <td mat-cell *matCellDef="let client"> {{client.zona}} </td>
+      <td mat-cell *matCellDef="let client"> {{client.zona?.zona || '—'}} </td>
     </ng-container>
 
-    <!-- Domicilio Column -->
-    <ng-container matColumnDef="domicilio">
-      <th mat-header-cell *matHeaderCellDef> Domicilio </th>
+    <!-- Ubicación Column -->
+    <ng-container matColumnDef="ubicacion">
+      <th mat-header-cell *matHeaderCellDef> Ubicación </th>
       <td mat-cell *matCellDef="let client">
-        {{client.domicilio || '—'}}
+        {{client.ubicaciones?.[0]?.descripcion || '—'}}
       </td>
     </ng-container>
 
