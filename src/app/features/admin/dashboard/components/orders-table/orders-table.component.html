@@ -4,8 +4,8 @@
       <tr>
         <th>Teléfono y cliente</th>
         <th>Destino y observaciones</th>
-        <th>Pedido y notas de pedido</th>
-        <th>Zona y vehículo</th>
+        <th>Productos</th>
+        <th>Zona</th>
         <th>Hora y fecha</th>
         <th>Canal</th>
         <th>Estado</th>
@@ -15,32 +15,40 @@
     <tbody>
       <tr *ngFor="let order of orders" [class.highlighted]="order.highlighted">
         <td class="phone-client">
-          <div class="phone">{{order.phone}}</div>
-          <div class="client">{{order.clientName}}</div>
+          <div class="phone">{{ order.phone }}</div>
+          <div class="client">{{ order.clientName }}</div>
         </td>
         <td class="destination">
-          <div class="address">{{order.address}}</div>
-          <div class="notes">{{order.notes}}</div>
+          <div class="address">{{ order.address }}</div>
+          <div class="notes">{{ order.observaciones }}</div>
         </td>
         <td class="order-details">
-          <div class="products">{{order.products}}</div>
+          <div class="products">
+            <ul>
+              <li *ngFor="let p of order.productos">
+                {{ p.cantidad }} × {{ p.nombre }} (${{ p.precio }})
+              </li>
+            </ul>
+          </div>
         </td>
         <td class="zone-vehicle">
-          <div class="zone">{{order.zone}}</div>
+          <div class="zone">{{ order.zona }}</div>
         </td>
         <td class="datetime">
-          <div class="time">{{order.time}}</div>
-          <div class="date">{{order.date}}</div>
+          <div class="time">{{ order.entrada | date:'shortTime' }}</div>
+          <div class="date">{{ order.entrada | date:'shortDate' }}</div>
         </td>
         <td class="channel">
-          <div class="channel-icon" [class.whatsapp]="order.channel === 'whatsapp'">
-            <mat-icon>{{order.channel === 'whatsapp' ? 'whatsapp' : 'phone'}}</mat-icon>
-            <span>{{order.channel}}</span>
+          <div class="channel-icon" [class.whatsapp]="order.canal === 'whatsapp'">
+            <mat-icon>{{ order.canal === 'whatsapp' ? 'whatsapp' : 'phone' }}</mat-icon>
+            <span>{{ order.canal }}</span>
           </div>
         </td>
         <td class="status">
-          <div class="status-badge" [class.pendiente]="order.status === 'pendiente'" [class.entregado]="order.status === 'entregado'">
-            {{order.status}}
+          <div class="status-badge"
+               [class.pendiente]="order.estado === 'Pendiente'"
+               [class.entregado]="order.estado === 'Entregado'">
+            {{ order.estado }}
           </div>
         </td>
         <td class="actions">

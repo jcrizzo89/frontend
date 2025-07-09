@@ -1,27 +1,39 @@
 .client-list {
   width: 100%;
   overflow-x: auto;
+  background-color: #EAEAEA;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 th, td {
-  padding: 12px;
+  padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 th {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5;
   font-weight: 500;
+  color: #333;
+  font-size: 0.875rem;
+  text-transform: uppercase;
 }
 
 .mat-elevation-z8 {
-  margin: 20px;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 mat-form-field {

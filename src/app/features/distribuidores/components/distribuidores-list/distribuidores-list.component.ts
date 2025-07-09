@@ -18,23 +18,37 @@ export class DistribuidoresListComponent implements OnInit {
 
   constructor(private distribuidoresService: DistribuidoresService) {}
 
-  ngOnInit() {
-    // Obtener los IDs de los distribuidores del mock
-    const mockIds = ['1', '2'];
-    this.loading = true;
-    
-    // Cargar cada distribuidor
-    Promise.all(mockIds.map(id => 
-      this.distribuidoresService.getDistribuidor(id).toPromise()
-    ))
-    .then(distribuidores => {
-      this.distribuidores = distribuidores.filter(d => d !== null) as Distribuidor[];
+ ngOnInit() {
+  this.loading = true;
+
+  this.distribuidoresService.getAllDistribuidores().subscribe({
+    next: (distribuidores) => {
+      this.distribuidores = distribuidores;
       this.loading = false;
-    })
-    .catch(error => {
+    },
+    error: (error) => {
       console.error('Error loading distribuidores:', error);
       this.error = 'Error al cargar la lista de distribuidores';
       this.loading = false;
-    });
+    }
+  });
+}
+
+
+  getEntregadosATiempo(distribuidor: Distribuidor): number {
+    if (!distribuidor.pedidos) return 0;
+
+    return distribuidor.pedidos.filter(pedido => {
+      if (pedido.estado !== 'Entregado' || !pedido.salida || !pedido.enviar) return false;
+
+      const salida = new Date(pedido.salida);
+      const enviar = new Date(pedido.enviar);
+      return salida <= enviar;
+    }).length;
+  }
+
+
+  getTotalPedidos(distribuidor: Distribuidor): number {
+    return distribuidor.pedidos?.length || 0;
   }
 }

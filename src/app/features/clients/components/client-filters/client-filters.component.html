@@ -21,6 +21,29 @@
     <!-- Filtros avanzados -->
     <div class="advanced-filters" *ngIf="showAdvancedFilters">
       <div class="filters-grid">
+
+              <!-- Alerta -->
+      <mat-form-field appearance="outline">
+        <mat-label>Alerta</mat-label>
+        <mat-select formControlName="alerta">
+          <mat-option value="">Todas</mat-option>
+          <mat-option [value]="true">Sí</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Cantidad de llamadas -->
+      <mat-form-field appearance="outline">
+        <mat-label>Llamadas mín.</mat-label>
+        <input matInput type="number" formControlName="cantLlamadasMin" min="0">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Llamadas máx.</mat-label>
+        <input matInput type="number" formControlName="cantLlamadasMax" min="0">
+      </mat-form-field>
+
+
         <!-- Zona -->
         <mat-form-field appearance="outline">
           <mat-label>Zona</mat-label>

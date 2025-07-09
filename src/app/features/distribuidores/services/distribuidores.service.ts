@@ -1,99 +1,122 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Distribuidor, DistribuidorPedido } from '../models/distribuidor.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { Distribuidor } from '../models/distribuidor.model';
+import { Order } from '../../admin/dashboard/models/order.model';
 import { environment } from '../../../../environments/environment';
-import { MOCK_DISTRIBUIDORES, MOCK_PEDIDOS } from '../mock/mock-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DistribuidoresService {
-  private apiUrl = `${environment.apiUrl}/distribuidores`;
-  private useMockData = true; // Cambiar a false cuando el backend esté listo
+  private apiUrl = `${environment.apiUrl}/repartidores`;
 
   constructor(private http: HttpClient) {}
 
+  getAllDistribuidores(): Observable<Distribuidor[]> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(data => data.map(d => this.mapDistribuidor(d)))
+    );
+  }
+
   getDistribuidor(id: string): Observable<Distribuidor> {
-    if (this.useMockData) {
-      const distribuidor = MOCK_DISTRIBUIDORES.find(d => d.id === id);
-      return distribuidor ? of(distribuidor) : throwError(() => new Error('Distribuidor no encontrado'));
-    }
-    return this.http.get<Distribuidor>(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError)
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(data => this.mapDistribuidor(data))
+    );
+  }
+
+  createDistribuidor(distribuidor: Partial<Distribuidor>): Observable<Distribuidor> {
+    const payload = {
+      nombre: distribuidor.nombre,
+      telefono: distribuidor.telefono,
+      activo: distribuidor.activo,
+      idZona: distribuidor.zonaId,
+      imei: distribuidor.imei
+    };
+    return this.http.post<any>(this.apiUrl, payload).pipe(
+      map(data => this.mapDistribuidor(data))
     );
   }
 
   updateDistribuidor(distribuidor: Distribuidor): Observable<Distribuidor> {
-    if (this.useMockData) {
-      const index = MOCK_DISTRIBUIDORES.findIndex(d => d.id === distribuidor.id);
-      if (index !== -1) {
-        MOCK_DISTRIBUIDORES[index] = { ...distribuidor, ultimaActualizacion: new Date() };
-        return of(MOCK_DISTRIBUIDORES[index]);
-      }
-      return throwError(() => new Error('Distribuidor no encontrado'));
-    }
-    return this.http.put<Distribuidor>(`${this.apiUrl}/${distribuidor.id}`, distribuidor).pipe(
-      catchError(this.handleError)
+    const payload = {
+      nombre: distribuidor.nombre,
+      telefono: distribuidor.telefono,
+      activo: distribuidor.activo,
+      idZona: distribuidor.zonaId,
+      imei: distribuidor.imei
+    };
+    return this.http.put<any>(`${this.apiUrl}/${distribuidor.id}`, payload).pipe(
+      map(data => this.mapDistribuidor(data))
     );
   }
 
-  getPedidosHistorial(distribuidorId: string): Observable<DistribuidorPedido[]> {
-    if (this.useMockData) {
-      const pedidos = MOCK_PEDIDOS[distribuidorId] || [];
-      return of(pedidos);
-    }
-    return this.http.get<DistribuidorPedido[]>(`${this.apiUrl}/${distribuidorId}/pedidos`).pipe(
-      catchError(this.handleError)
+  deleteDistribuidor(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getPedidos(distribuidorId: string): Observable<Order[]> {
+    return this.http.get<any>(`${this.apiUrl}/${distribuidorId}`).pipe(
+      map(data => data.pedidos?.map((p: any) => this.mapOrder(p)) || [])
     );
   }
 
-  getPedidos(distribuidorId: string): Observable<DistribuidorPedido[]> {
-    if (this.useMockData) {
-      const pedidos = MOCK_PEDIDOS[distribuidorId] || [];
-      return of(pedidos);
-    }
-    return this.http.get<DistribuidorPedido[]>(`${this.apiUrl}/${distribuidorId}/pedidos`).pipe(
-      catchError(this.handleError)
+  updatePedido(pedido: Order): Observable<Order> {
+    return this.http.put<any>(`http://localhost:3001/pedidos/${pedido.id}`, pedido).pipe(
+      map(data => this.mapOrder(data))
     );
   }
 
-  updatePedido(pedido: DistribuidorPedido): Observable<DistribuidorPedido> {
-    if (this.useMockData) {
-      const distribuidorPedidos = Object.values(MOCK_PEDIDOS).flat();
-      const index = distribuidorPedidos.findIndex(p => p.id === pedido.id);
-      if (index !== -1) {
-        distribuidorPedidos[index] = { ...pedido };
-        return of(distribuidorPedidos[index]);
-      }
-      return throwError(() => new Error('Pedido no encontrado'));
-    }
-    return this.http.put<DistribuidorPedido>(`${this.apiUrl}/pedidos/${pedido.id}`, pedido).pipe(
-      catchError(this.handleError)
-    );
+  exportPedido(pedido: Order): Observable<boolean> {
+    return this.http.post<boolean>(`http://localhost:3001/pedidos/${pedido.id}/exportar`, {});
   }
 
-  exportPedido(pedido: DistribuidorPedido): Observable<boolean> {
-    if (this.useMockData) {
-      // Simular una exportación exitosa
-      return of(true);
-    }
-    return this.http.post<boolean>(`${this.apiUrl}/pedidos/${pedido.id}/export`, {}).pipe(
-      catchError(this.handleError)
-    );
+  private mapDistribuidor(d: any): Distribuidor {
+    return {
+      id: d.idRepartidor,
+      nombre: d.nombre,
+      telefono: d.telefono,
+      imei: d.imei,
+      activo: d.activo,
+      zonaId: d.zona?.idZona,
+      zonaNombre: d.zona?.nombre,
+      pedidos: d.pedidos?.map((p: any) => this.mapOrder(p)) || []
+    };
   }
 
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'Ha ocurrido un error en el servidor';
-    if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Error del lado del servidor
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
+  private mapOrder(p: any): Order {
+    return {
+      id: p.idPedido,
+      nroPedido: p.nroPedido,
+      estado: p.estado,
+
+      clientName: p.cliente?.nombre || '',
+      address: p.direccion,
+      phone: p.cliente?.telefono || '',
+
+      canal: p.canal,
+      entrada: p.entrada,
+      enviar: p.enviar,
+      salida: p.salida,
+
+      despachado: p.despachado,
+      observaciones: p.observaciones,
+
+      zona: p.zona?.nombre,
+      importe: p.importe,
+
+      repartidor: p.repartidor?.idRepartidor,
+      pagaCon: p.pagaCon,
+
+      linea: p.linea,
+      talonario: p.talonario,
+      descuento: p.descuento,
+
+      productos: p.productos || [],
+      historialEstados: p.historialEstados || [],
+
+      latitudEntrega: p.latitudEntrega,
+      longitudEntrega: p.longitudEntrega
+    };
   }
 }

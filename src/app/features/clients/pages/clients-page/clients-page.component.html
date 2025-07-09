@@ -15,7 +15,6 @@
 
   <!-- Modal de formulario -->
   <div class="modal" *ngIf="showClientForm">
-    <div class="modal-backdrop" (click)="onCloseForm()"></div>
     <app-client-form
       [client]="selectedClient"
       (close)="onCloseForm()"

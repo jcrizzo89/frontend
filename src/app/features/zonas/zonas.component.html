@@ -8,7 +8,7 @@
       <mat-icon class="search-icon">search</mat-icon>
       <input type="text" class="search-input" placeholder="Buscar zona" (keyup)="applyFilter($event)">
     </div>
-    
+
     <div class="actions-container">
       <button mat-icon-button class="delete-button">
         <mat-icon>delete</mat-icon>
@@ -19,81 +19,95 @@
     </div>
   </div>
 
-  <!-- Contenedor principal con tabla y mapa -->
+  <!-- Contenido principal -->
   <div class="content-container">
-    <!-- Tabla de zonas -->
-    <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort class="zonas-table">
-        <!-- Zona Column -->
-        <ng-container matColumnDef="zona">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>ZONA</th>
-          <td mat-cell *matCellDef="let zona" (click)="onSelectZona(zona)" class="clickable-cell">{{ zona.id }}</td>
-        </ng-container>
+    <!-- Manejo de carga o error -->
+    <ng-container *ngIf="!isLoading && !hasError; else loadingOrError">
+      <!-- Tabla de zonas -->
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="zonas-table">
+          <!-- ZONA -->
+          <ng-container matColumnDef="zona">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ZONA</th>
+            <td mat-cell *matCellDef="let zona" (click)="onSelectZona(zona)" class="clickable-cell">{{ zona.id }}</td>
+          </ng-container>
 
-        <!-- Vehiculo Column -->
-        <ng-container matColumnDef="vehiculo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehículo</th>
-          <td mat-cell *matCellDef="let zona" (click)="onSelectZona(zona)" class="clickable-cell">{{ zona.vehiculo }}</td>
-        </ng-container>
+          <!-- VEHÍCULO -->
+          <ng-container matColumnDef="vehiculo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehículo</th>
+            <td mat-cell *matCellDef="let zona" (click)="onSelectZona(zona)" class="clickable-cell">{{ zona.vehiculo }}</td>
+          </ng-container>
 
-        <!-- Conductor Column -->
-        <ng-container matColumnDef="conductor">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Conductor</th>
-          <td mat-cell *matCellDef="let zona" (click)="onSelectZona(zona)" class="clickable-cell">{{ zona.conductor }}</td>
-        </ng-container>
+          <!-- CONDUCTOR -->
+          <ng-container matColumnDef="conductor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Conductor</th>
+            <td mat-cell *matCellDef="let zona" (click)="onSelectZona(zona)" class="clickable-cell">{{ zona.conductor }}</td>
+          </ng-container>
 
-        <!-- Descripción Column -->
-        <ng-container matColumnDef="descripcion">
-          <th mat-header-cell *matHeaderCellDef>Descripción</th>
-          <td mat-cell *matCellDef="let zona" class="descripcion-cell clickable-cell" (click)="onSelectZona(zona)">
-            <div class="descripcion-text">{{ zona.descripcion }}</div>
-          </td>
-        </ng-container>
+          <!-- DESCRIPCIÓN -->
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef>Descripción</th>
+            <td mat-cell *matCellDef="let zona" class="descripcion-cell clickable-cell" (click)="onSelectZona(zona)">
+              <div class="descripcion-text">{{ zona.descripcion }}</div>
+            </td>
+          </ng-container>
 
-        <!-- Coordenadas Column -->
-        <ng-container matColumnDef="coordenadas">
-          <th mat-header-cell *matHeaderCellDef>Coordenadas</th>
-          <td mat-cell *matCellDef="let zona" class="coordenadas-cell clickable-cell" (click)="onSelectZona(zona)">
-            <a class="coordenadas-link">{{ zona.coordenadas }}</a>
-          </td>
-        </ng-container>
+          <!-- COORDENADAS -->
+          <ng-container matColumnDef="coordenadas">
+            <th mat-header-cell *matHeaderCellDef>Coordenadas</th>
+            <td mat-cell *matCellDef="let zona" class="coordenadas-cell clickable-cell" (click)="onSelectZona(zona)">
+              <a class="coordenadas-link">{{ zona.coordenadas }}</a>
+            </td>
+          </ng-container>
 
-        <!-- Editar Column -->
-        <ng-container matColumnDef="editar">
-          <th mat-header-cell *matHeaderCellDef>Editar</th>
-          <td mat-cell *matCellDef="let zona">
-            <button mat-icon-button color="primary" class="edit-button" (click)="openEditZonaDialog(zona); $event.stopPropagation()">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <!-- EDITAR -->
+          <ng-container matColumnDef="editar">
+            <th mat-header-cell *matHeaderCellDef>Editar</th>
+            <td mat-cell *matCellDef="let zona">
+              <button mat-icon-button color="primary" class="edit-button" (click)="openEditZonaDialog(zona); $event.stopPropagation()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
-            [class.selected-row]="selectedZona && selectedZona.id === row.id"
-            (click)="onSelectZona(row)"></tr>
-      </table>
+          <!-- Filas -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              [class.selected-row]="selectedZona && selectedZona.idZona === row.idZona"
+              (click)="onSelectZona(row)">
+          </tr>
+        </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
-    </div>
-
-    <!-- Panel del mapa -->
-    <div class="map-container">
-      <!-- Vista cuando hay una zona seleccionada -->
-      <div class="map-card" *ngIf="selectedZona">
-        <h2 class="map-title">Mapa zona {{ selectedZona.id }}</h2>
-        
-        <div class="map-image-wrapper">
-          <img src="assets/images/map-zona1.jpg" [alt]="'Mapa de la zona ' + selectedZona.id" class="map-image">
-        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
       </div>
 
-      <!-- Vista inicial cuando no hay zona seleccionada -->
-      <div class="empty-map-card" *ngIf="!selectedZona">
-        <div class="empty-map-content">
-          <p class="empty-map-text">Seleccione una zona<br>para ver el mapa</p>
+      <!-- Panel del mapa -->
+      <div class="map-container">
+        <!-- Zona seleccionada -->
+        <div class="map-card" *ngIf="selectedZona">
+          <h2 class="map-title">Mapa zona {{ selectedZona.idZona }}</h2>
+          <div class="map-image-wrapper">
+            <img [src]="getMapUrl()" [alt]="'Mapa de la zona ' + selectedZona.idZona" class="map-image">
+          </div>
+        </div>
+
+        <!-- Vista inicial sin selección -->
+        <div class="empty-map-card" *ngIf="!selectedZona">
+          <div class="empty-map-content">
+            <p class="empty-map-text">Seleccione una zona<br>para ver el mapa</p>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+
+    <!-- Plantilla para carga o error -->
+    <ng-template #loadingOrError>
+      <div *ngIf="isLoading" class="loading-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="hasError" class="error-message">
+        <p>Error al cargar las zonas. Intente nuevamente más tarde.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

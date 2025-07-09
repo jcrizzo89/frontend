@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserRole } from '../../../core/models/user.model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,8 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../../../core/services/auth.service';
-import { LoginResponse } from '../../../core/services/auth.service';
-import { User } from '../../../core/models/user.interface';
+import { User, LoginResponse } from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -61,14 +61,37 @@ export class LoginComponent implements OnInit {
       const { username, password } = this.loginForm.value;
       
       if (username === 'admin' && password === 'admin') {
+        // Crear un token JWT simulado válido (header.payload.signature)
+        const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+        const payload = btoa(JSON.stringify({
+          sub: '1',
+          email: 'admin@agualuz.com',
+          role: 'admin',
+          exp: Math.floor(Date.now() / 1000) + 3600, // Expira en 1 hora
+          iat: Math.floor(Date.now() / 1000)
+        }));
+        const signature = 'mock-signature';
+        const mockToken = `${header}.${payload}.${signature}`;
+        
         const mockResponse: LoginResponse = {
-          token: 'mock-jwt-token',
+          token: mockToken,
+          refreshToken: 'mock-refresh-token',
           user: {
-            id: 1,
+            id: '1',
             email: 'admin@agualuz.com',
-            name: 'Admin',
-            role: 'admin' as const
-          }
+            nombre: 'Admin',
+            apellido: 'Sistema',
+            rol: UserRole.ADMIN,
+            activo: true,
+            fechaCreacion: new Date(),
+            notificaciones: 0,
+            preferencias: {
+              tema: 'sistema',
+              notificaciones: true,
+              idioma: 'es'
+            }
+          },
+          expiresIn: 3600
         };
 
         try {

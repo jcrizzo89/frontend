@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MaterialModule } from '../../shared/material/material.module';
 
 // Components
@@ -9,6 +10,7 @@ import { ClientsPageComponent } from './pages/clients-page/clients-page.componen
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { ClientFormComponent } from './components/client-form/client-form.component';
 import { ClientFiltersComponent } from './components/client-filters/client-filters.component';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 
 const routes: Routes = [
   {
@@ -22,13 +24,15 @@ const routes: Routes = [
     ClientsPageComponent,
     ClientListComponent,
     ClientFormComponent,
-    ClientFiltersComponent
+    ClientFiltersComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    MaterialModule
+    MaterialModule,
+    MatDialogModule
   ],
   exports: [
     ClientsPageComponent

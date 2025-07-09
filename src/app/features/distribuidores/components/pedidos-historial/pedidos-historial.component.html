@@ -2,7 +2,7 @@
     <div class="filters">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" 
+            <input type="text"
                 placeholder="Buscar pedidos..."
                 [(ngModel)]="searchTerm"
                 (input)="onSearch($event)">
@@ -19,9 +19,9 @@
     <table class="pedidos-table">
         <thead>
             <tr>
-                <th (click)="onSort('fechaHora')">
-                    Fecha/Hora
-                    <i class="fas" [ngClass]="sortBy === 'fechaHora' ? (sortAscending ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'"></i>
+                <th (click)="onSort('entrada')">
+                  Fecha/Hora
+                  <i class="fas" [ngClass]="sortBy === 'entrada' ? (sortAscending ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'"></i>
                 </th>
                 <th>Cliente</th>
                 <th>Destino</th>
@@ -35,9 +35,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let pedido of filteredPedidos">
-                <td>{{pedido.fechaHora | date:'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{pedido.cliente}}</td>
-                <td>{{pedido.destino}}</td>
+                <td>{{pedido.entrada | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{pedido.clientName}}</td>
+                <td>{{pedido.zona}} - {{pedido.address}}</td>
+
                 <td>
                     <span class="estado" [ngClass]="pedido.estado.toLowerCase()">
                         {{pedido.estado}}

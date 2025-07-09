@@ -49,6 +49,58 @@
   margin-top: 24px;
 }
 
+/* Estilos para el contenedor de ubicaciones */
+.ubicaciones-container {
+  margin-top: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px;
+  background-color: #fafafa;
+}
+
+.ubicacion-item {
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.ubicacion-item h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Estilos para el botón de eliminar ubicación */
+button[mat-button] {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Ajustes para los campos de latitud y longitud */
+.mat-form-field {
+  min-width: 120px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-row mat-form-field {
+    width: 100%;
+  }
+  
+  .ubicacion-item {
+    padding: 12px;
+  }
+}
+
 textarea {
   min-height: 100px;
 }

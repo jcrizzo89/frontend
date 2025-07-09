@@ -1,0 +1,467 @@
+/* Contenedor principal */
+.orders-container {
+  width: 100%;
+  max-width: 1800px;
+  min-height: calc(100vh - 100px);
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Tarjeta de búsqueda */
+.search-card {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-container {
+  width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 300px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 16px;
+}
+
+/* Lista de pedidos */
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.order-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.order-card .mat-card-header {
+  padding: 16px 16px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.order-card .mat-card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.order-id {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  padding: 4px 10px 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.order-status .status-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-status.primary {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.order-status.accent {
+  background-color: #fff8e1;
+  color: #ff8f00;
+}
+
+.order-status.warn {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.order-card .mat-card-subtitle {
+  margin: 0;
+  padding: 0;
+}
+
+.order-client-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-client,
+.order-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #616161;
+}
+
+.order-client mat-icon,
+.order-phone mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #757575;
+}
+
+.order-phone a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.order-phone a:hover {
+  color: #1976d2;
+  text-decoration: underline;
+}
+
+.order-card .mat-card-content {
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.order-address,
+.order-amount,
+.order-date {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #616161;
+}
+
+.order-address mat-icon,
+.order-amount mat-icon,
+.order-date mat-icon {
+  color: #757575;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+.order-notes {
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.order-notes mat-icon {
+  color: #9e9e9e;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+.order-notes p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #616161;
+  line-height: 1.4;
+}
+
+.order-card .mat-card-actions {
+  padding: 8px 16px 16px;
+  margin: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Asegurar que los botones no se compriman */
+.order-card .mat-card-actions button {
+  margin: 0;
+  min-width: auto;
+  white-space: nowrap;
+}
+
+/* Estilo para botones deshabilitados */
+.order-card .mat-card-actions button[disabled] {
+  opacity: 0.6;
+}
+
+/* Estilos específicos para los botones de acción */
+.order-card .mat-card-actions .mat-button {
+  font-size: 0.8rem;
+  line-height: 28px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.order-card .mat-card-actions .mat-button .mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para los spinners de carga en los botones */
+.button-spinner {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+/* Asegurar que el texto del botón tenga un ancho mínimo */
+.order-card .mat-card-actions .mat-button span {
+  min-width: 60px;
+  text-align: left;
+  display: inline-block;
+}
+
+/* Estilo para botones deshabilitados */
+.order-card .mat-card-actions .mat-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Efecto hover para botones habilitados */
+.order-card .mat-card-actions .mat-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el spinner de carga */
+.mat-spinner {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.mat-spinner circle {
+  stroke: currentColor;
+  stroke-width: 3px;
+}
+
+/* Ajustes para el spinner en botones */
+.button-spinner {
+  margin-right: 4px;
+}
+
+/* Estados de carga y error */
+.loading-container,
+.error-container,
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  grid-column: 1 / -1;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.loading-container mat-spinner {
+  margin-bottom: 16px;
+}
+
+.error-container mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: #d32f2f;
+}
+
+.no-results mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: #9e9e9e;
+}
+
+/* Responsive */
+@media (max-width: 959px) {
+  .orders-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 599px) {
+  .orders-container {
+    padding: 12px;
+  }
+  
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .filters {
+    margin: 0;
+    justify-content: space-between;
+  }
+  
+  .filters button {
+    flex: 1;
+    min-width: auto;
+  }
+  
+  .orders-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.search-input input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.3);
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+  background-color: #32A2DA;
+  color: white;
+}
+
+.filter-btn mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Tabla de pedidos */
+app-orders-table {
+  display: block;
+  width: 100%;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+  .orders-container {
+    padding: 16px;
+  }
+  
+  .search-bar {
+    gap: 12px;
+  }
+  
+  .filters {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 12px;
+    border-radius: 16px;
+  }
+  
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .search-input {
+    min-width: 100%;
+  }
+}
