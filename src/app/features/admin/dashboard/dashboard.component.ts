@@ -2,14 +2,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { OrderCardComponent } from './components/order-card/order-card.component';
 import { StatsPanelComponent } from './components/stats-panel/stats-panel.component';
 import { OrdersTableComponent } from './components/orders-table/orders-table.component';
+import { EditOrderModalComponent } from './components/edit-order-modal/edit-order-modal.component';
+import { ClientFormComponent } from '../../clients/components/client-form/client-form.component';
 
 import { EstadoPedido, Order } from './models/order.model';
 import { OrderService } from './services/order.services';
@@ -23,9 +26,10 @@ import { OrderService } from './services/order.services';
   imports: [
     CommonModule,
     RouterModule,
-    MatIconModule,
-    MatButtonModule,
     FormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
     OrderCardComponent,
     StatsPanelComponent,
     OrdersTableComponent,
@@ -44,7 +48,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadOrders();
@@ -91,15 +98,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onEditOrder(order: Order): void {
-    const sub = this.orderService.updateOrder(order.id, order).subscribe({
-      next: (updated) => {
-        const index = this.orders.findIndex(o => o.id === updated.id);
-        if (index !== -1) this.orders[index] = updated;
-        console.log('Order updated:', updated);
-      },
-      error: (err) => console.error('Error updating order:', err)
+    const dialogRef = this.dialog.open(EditOrderModalComponent, {
+      width: '600px',
+      data: { order: { ...order } }
     });
-    this.subscriptions.add(sub);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const sub = this.orderService.updateOrder(result.id, result).subscribe({
+          next: (updated) => {
+            const index = this.orders.findIndex(o => o.id === updated.id);
+            if (index !== -1) this.orders[index] = updated;
+            console.log('Order updated:', updated);
+          },
+          error: (err) => console.error('Error updating order:', err)
+        });
+        this.subscriptions.add(sub);
+      }
+    });
   }
 
   deleteOrder(orderId: string): void {
@@ -135,6 +151,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log('Viewing stats details...');
     console.log('Unregistered orders:', this.stats.unregisteredOrders);
     console.log('Repeated orders:', this.stats.repeatedOrders);
-    // TODO: Implementar lógica para mostrar detalles de estadísticas
+  }
+
+  onAddClient() {
+    const dialogRef = this.dialog.open(ClientFormComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      disableClose: false, // Permitir cerrar el diálogo haciendo clic fuera o presionando ESC
+      data: { isEditing: false },
+      closeOnNavigation: true // Permitir que el diálogo se cierre al navegar
+    });
+
+    // Manejar el cierre del diálogo cuando se emite el evento close
+    const closeSubscription = dialogRef.componentInstance.close.subscribe(() => {
+      dialogRef.close();
+    });
+
+    // Manejar el cierre del diálogo
+    const afterClosedSubscription = dialogRef.afterClosed().subscribe(result => {
+      // Desuscribirse para evitar fugas de memoria
+      closeSubscription.unsubscribe();
+      afterClosedSubscription.unsubscribe();
+      
+      if (result) {
+        console.log('Cliente creado:', result);
+        // Aquí puedes agregar lógica adicional después de crear el cliente
+      }
+    });
   }
 }

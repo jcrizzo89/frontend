@@ -10,11 +10,16 @@ interface Pedido {
 export interface Cliente {
   idCliente: string;
   nombre: string;
+  codigoArea: string;
   telefono: string;
+  domicilio: string;
+  linkMaps?: string;
   observaciones?: string;
+  tipoBotellon?: string;
+  imagenReferencia?: string;
   alerta: boolean;
   cantLlamadas: number;
-  fIngreso?: Date;
+  fIngreso?: string | Date; // Puede ser string (ISO) o Date
   idZona: string;
   zona?: {
     idZona: string;
@@ -42,6 +47,7 @@ export interface Llamada {
   idCliente: string;
 }
 
-export interface ClienteFormData extends Omit<Cliente, 'idCliente' | 'zona' | 'ubicaciones' | 'pedidos' | 'llamadas'> {
+export interface ClienteFormData extends Omit<Cliente, 'idCliente' | 'zona' | 'ubicaciones' | 'pedidos' | 'llamadas' | 'fIngreso'> {
   idZona: string;
+  fIngreso?: string | Date; // Acepta tanto string (ISO) como Date
 }

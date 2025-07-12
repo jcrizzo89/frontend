@@ -4,7 +4,7 @@
     <div class="date-display">{{currentTime | date:'dd/MM/yyyy'}}</div>
   </div>
   <div class="stats-section">
-    <div class="stat-item">
+    <div class="stat-item" (click)="onAddClient()" style="cursor: pointer;">
       <mat-icon>person_add</mat-icon>
       <span>Pedidos no registrados ({{stats.unregisteredOrders}})</span>
     </div>

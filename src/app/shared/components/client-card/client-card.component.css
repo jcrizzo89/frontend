@@ -8,8 +8,21 @@
   
     .card-header {
       display: flex;
-      align-items: center;
+      justify-content: space-between;
+      align-items: flex-start;
       gap: 24px;
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
   
       .number {
         font-size: 32px;
@@ -21,6 +34,21 @@
         font-size: 24px;
         color: #FFFFFF;
         font-weight: 500;
+      }
+
+      .add-contact {
+        color: #32A2DA;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        mat-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
       }
   
       .date {

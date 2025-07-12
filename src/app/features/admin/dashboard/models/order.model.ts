@@ -16,17 +16,21 @@ export interface Order {
 
   despachado: boolean;
   observaciones?: string;
+  notaPedido?: string;
 
-  zona?: string; // o Zona si se desea objeto completo
+  zona?: string;
   importe: number;
 
-  repartidor?: string; // ← idRepartidor o incluso objeto Distribuidor si se desea anidar
+  repartidor?: string;
   pagaCon?: number;
 
   linea?: string;
   talonario?: string;
 
   descuento?: number;
+  tipoBotellon?: string;
+  cantidad?: number;
+  noNotificar?: boolean;
 
   productos: {
     nombre: string;
@@ -39,7 +43,7 @@ export interface Order {
   latitudEntrega?: number;
   longitudEntrega?: number;
 
-    // ✅ Añadido:
+  // UI state
   highlighted?: boolean;
 }
 

@@ -107,19 +107,33 @@ export class ZonaEditComponent implements OnInit {
     
     if (this.isNew || !idZona) {
       // Crear nueva zona
-      const nuevaZona: ZonaFormData = {
+      const nuevaZona = {
         zona: formValue.zona,
-        descripcion: formValue.descripcion || '',
-        activa: formValue.activa,
+        descripcion: formValue.descripcion || undefined, // Send undefined instead of empty string
         barrios: formValue.barrios || []
       };
       
+      console.log('Sending to server:', nuevaZona); // Add logging
       this.zonaService.create(nuevaZona).subscribe({
         next: (zona: Zona) => {
           this.dialogRef.close(zona);
         },
         error: (error: any) => {
           console.error('Error al crear la zona:', error);
+          // Mostrar mensaje de error al usuario
+          let errorMessage = 'Ocurrió un error al crear la zona.';
+          
+          if (error.error && typeof error.error === 'string') {
+            // Si el backend devuelve un mensaje de error
+            errorMessage = error.error;
+          } else if (error.status === 400) {
+            errorMessage = 'Datos inválidos. Por favor, verifique la información ingresada.';
+          } else if (error.status === 500) {
+            errorMessage = 'Error en el servidor. Por favor, intente nuevamente más tarde.';
+          }
+          
+          // Aquí puedes mostrar el mensaje usando un snackbar, toast, o alerta
+          alert(errorMessage);
         }
       });
     } else {
@@ -137,6 +151,20 @@ export class ZonaEditComponent implements OnInit {
         },
         error: (error: any) => {
           console.error('Error al actualizar la zona:', error);
+          // Mostrar mensaje de error al usuario
+          let errorMessage = 'Ocurrió un error al actualizar la zona.';
+          
+          if (error.error && typeof error.error === 'string') {
+            // Si el backend devuelve un mensaje de error
+            errorMessage = error.error;
+          } else if (error.status === 400) {
+            errorMessage = 'Datos inválidos. Por favor, verifique la información ingresada.';
+          } else if (error.status === 500) {
+            errorMessage = 'Error en el servidor. Por favor, intente nuevamente más tarde.';
+          }
+          
+          // Aquí puedes mostrar el mensaje usando un snackbar, toast, o alerta
+          alert(errorMessage);
         }
       });
     }

@@ -1,10 +1,17 @@
 <div class="card">
     <div class="card-header">
-      <div class="number">{{clientNumber}}</div>
-      <div class="phone">{{phone}}</div>
-      <div class="date">
-        <div>{{date}}</div>
-        <div>{{time}}</div>
+      <div class="header-left">
+        <div class="number">{{clientNumber}}</div>
+        <div class="phone">{{phone}}</div>
+      </div>
+      <div class="header-right">
+        <button mat-icon-button class="add-contact">
+          <mat-icon>person_add</mat-icon>
+        </button>
+        <div class="date">
+          <div>{{date}}</div>
+          <div>{{time}}</div>
+        </div>
       </div>
     </div>
     

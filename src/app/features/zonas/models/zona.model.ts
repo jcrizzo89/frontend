@@ -26,8 +26,10 @@ export interface Zona {
 }
 
 export interface ZonaFormData extends Omit<Zona, 
-  'idZona' | 'fechaCreacion' | 'ultimaActualizacion' | 'repartidores' | 'clientes' | 'totalClientes' | 'totalRepartidores' | 'totalPedidosHoy'
+  'idZona' | 'fechaCreacion' | 'ultimaActualizacion' | 'repartidores' | 'clientes' | 'totalClientes' | 'totalRepartidores' | 'totalPedidosHoy' | 'activa' | 'descripcion'
 > {
+  descripcion?: string; // Hacer descripcion opcional
+  activa?: boolean; // Hacer activa opcional
   idRepartidores?: string[]; // IDs de repartidores a asignar
 }
 

@@ -3,7 +3,12 @@
   <div class="dashboard-container">
     <div class="order-cards">
       <app-order-card *ngFor="let order of activeOrders" [order]="order" (addProgress)="onAddProgress($event)"></app-order-card>
-      <app-stats-panel [stats]="stats" [currentTime]="currentTime" (viewDetails)="onViewDetails()"></app-stats-panel>
+      <app-stats-panel 
+        [stats]="stats" 
+        [currentTime]="currentTime" 
+        (viewDetails)="onViewDetails()"
+        (addClient)="onAddClient()">
+      </app-stats-panel>
     </div>
 
     <div class="search-container">

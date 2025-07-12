@@ -2,8 +2,8 @@
   background: white;
   padding: 24px;
   border-radius: 8px;
-  width: 600px;
-  max-width: 90vw;
+  width: 800px;
+  max-width: 95vw;
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -35,7 +35,104 @@
 
 .form-row mat-form-field {
   flex: 1;
-  min-width: 200px;
+  min-width: 120px;
+}
+
+/* Estilos específicos para los campos de teléfono */
+.codigo-area {
+  max-width: 100px;
+}
+
+.telefono {
+  max-width: 200px;
+}
+
+.nombre {
+  min-width: 250px;
+}
+
+/* Estilos para el contenedor de carga de imagen */
+.image-upload-container {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.image-upload-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.image-preview {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.remove-image {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+.remove-image:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+/* Estilos para el botón de Agregar Domicilio */
+.add-ubicacion-btn {
+  margin: 16px 0;
+  padding: 0 16px;
+  height: 42px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.add-ubicacion-btn mat-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.add-ubicacion-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el mensaje de error */
+.error-message {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  color: #f44336;
+  font-size: 14px;
+}
+
+.error-message mat-icon {
+  margin-right: 8px;
+}
+
+/* Estilos para el botón de subir imagen */
+.mat-raised-button {
+  margin-top: 8px;
+}
+
+.mat-raised-button mat-icon {
+  margin-right: 8px;
 }
 
 .full-width {

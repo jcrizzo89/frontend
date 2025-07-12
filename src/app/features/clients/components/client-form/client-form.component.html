@@ -8,24 +8,116 @@
 
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="client-form">
     <div class="form-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" placeholder="0985 123456">
-        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['required']">
-          El teléfono es requerido
+      <!-- Código de Área -->
+      <mat-form-field appearance="outline" class="codigo-area">
+        <mat-label>Cód. Área</mat-label>
+        <input matInput formControlName="codigoArea" placeholder="351" maxlength="4" required>
+        <mat-hint>Ej: 351, 11, 299</mat-hint>
+        <mat-error *ngIf="clientForm.get('codigoArea')?.errors?.['required']">
+          El código de área es obligatorio
         </mat-error>
-        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['pattern']">
-          Formato inválido. Use: 0985 123456
+        <mat-error *ngIf="clientForm.get('codigoArea')?.errors?.['pattern'] || clientForm.get('codigoArea')?.errors?.['minlength']">
+          Mínimo 2 dígitos
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('codigoArea')?.errors?.['maxlength']">
+          Máximo 4 dígitos
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre" placeholder="Nombre del cliente">
-        <mat-error *ngIf="clientForm.get('nombre')?.errors?.['required']">
-          El nombre es requerido
+      <!-- Número de Teléfono -->
+      <mat-form-field appearance="outline" class="telefono">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono" placeholder="1234567" maxlength="12" required>
+        <mat-hint>Sin 0 ni 15. Ej: 1234567</mat-hint>
+        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['required']">
+          El teléfono es obligatorio
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['pattern']">
+          Solo números (6-12 dígitos)
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['minlength']">
+          Mínimo 6 dígitos
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('telefono')?.errors?.['maxlength']">
+          Máximo 12 dígitos
         </mat-error>
       </mat-form-field>
+
+      <!-- Nombre -->
+      <mat-form-field appearance="outline" class="nombre">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" placeholder="Nombre del cliente" required>
+        <mat-hint>Nombre completo del cliente</mat-hint>
+        <mat-error *ngIf="clientForm.get('nombre')?.errors?.['required']">
+          El nombre es obligatorio
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('nombre')?.errors?.['pattern']">
+          Solo se permiten letras y espacios
+        </mat-error>
+        <mat-error *ngIf="clientForm.get('nombre')?.errors?.['maxlength']">
+          Máximo 100 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Domicilio -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Domicilio</mat-label>
+        <input matInput formControlName="domicilio" placeholder="Dirección completa" required>
+        <mat-hint>Dirección completa del domicilio principal</mat-hint>
+        <mat-error *ngIf="clientForm.get('domicilio')?.errors?.['required']">
+          El domicilio es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Link de Google Maps -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Link de Google Maps</mat-label>
+        <input matInput formControlName="linkMaps" placeholder="https://maps.app.goo.gl/...">
+        <button mat-icon-button matSuffix (click)="openLink(clientForm.get('linkMaps')?.value)" [disabled]="!clientForm.get('linkMaps')?.value">
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+        <mat-error *ngIf="clientForm.get('linkMaps')?.errors?.['pattern']">
+          Ingrese un enlace válido de Google Maps
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Tipo de Botellón -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo de Botellón</mat-label>
+        <mat-select formControlName="tipoBotellon" required>
+          <mat-option value="chico">Chico</mat-option>
+          <mat-option value="mediano">Mediano</mat-option>
+          <mat-option value="grande">Grande</mat-option>
+          <mat-option value="especial">Especial</mat-option>
+        </mat-select>
+        <mat-error *ngIf="clientForm.get('tipoBotellon')?.errors?.['required']">
+          Seleccione un tipo de botellón
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Imagen de Referencia -->
+    <div class="form-row">
+      <div class="image-upload-container">
+        <label>Imagen de Referencia</label>
+        <div class="image-preview" *ngIf="clientForm.get('imagenReferencia')?.value">
+          <img [src]="clientForm.get('imagenReferencia')?.value" alt="Imagen de referencia">
+          <button mat-icon-button class="remove-image" (click)="removeImage()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <button mat-raised-button color="primary" (click)="fileInput.click()" *ngIf="!clientForm.get('imagenReferencia')?.value">
+          <mat-icon>add_photo_alternate</mat-icon>
+          Subir Imagen
+        </button>
+        <input #fileInput type="file" accept="image/*" style="display: none" (change)="onFileSelected($event)">
+      </div>
     </div>
 
     <div class="form-row">
@@ -65,32 +157,65 @@
       </mat-form-field>
     </div>
 
-    <div formArrayName="ubicaciones" class="ubicaciones-container">
+    <!-- Botón para agregar domicilio -->
+    <div class="form-actions">
+      <button mat-raised-button type="button" color="primary" (click)="addUbicacion()" class="add-ubicacion-btn">
+        <mat-icon>add_location</mat-icon> Agregar Domicilio
+      </button>
+      <div class="error-message" *ngIf="clientForm.get('ubicaciones')?.touched && ubicacionesArray.length === 0">
+        <mat-icon style="color: #f44336; font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+        <span>Debe agregar al menos una ubicación</span>
+      </div>
+    </div>
+
+    <!-- Sección de ubicaciones (inicialmente oculta) -->
+    <div formArrayName="ubicaciones" class="ubicaciones-container" *ngIf="ubicacionesArray.length > 0">
       <div *ngFor="let ubicacion of ubicacionesArray.controls; let i = index" [formGroupName]="i" class="ubicacion-item">
-        <h3>Ubicación {{ i + 1 }}</h3>
+        <h3>Domicilio {{ i + 1 }}</h3>
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Descripción</mat-label>
-            <input matInput formControlName="descripcion" placeholder="Ej: Casa, Trabajo, etc.">
+            <input matInput formControlName="descripcion" placeholder="Ej: Casa, Trabajo, etc." required>
+            <mat-hint>Identificador del domicilio (máx. 100 caracteres)</mat-hint>
             <mat-error *ngIf="ubicacion.get('descripcion')?.errors?.['required']">
-              La descripción es requerida
+              La descripción es obligatoria
+            </mat-error>
+            <mat-error *ngIf="ubicacion.get('descripcion')?.errors?.['pattern']">
+              Solo se permiten letras, números, espacios y caracteres especiales básicos
+            </mat-error>
+            <mat-error *ngIf="ubicacion.get('descripcion')?.errors?.['maxlength']">
+              Máximo 100 caracteres
             </mat-error>
           </mat-form-field>
         </div>
         <div class="form-row">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="coordinate-field">
             <mat-label>Latitud</mat-label>
-            <input matInput type="number" formControlName="latitud" step="any">
+            <input matInput type="number" formControlName="latitud" step="any" required>
+            <mat-hint>Entre -90 y 90 grados</mat-hint>
             <mat-error *ngIf="ubicacion.get('latitud')?.errors?.['required']">
-              La latitud es requerida
+              La latitud es obligatoria
+            </mat-error>
+            <mat-error *ngIf="ubicacion.get('latitud')?.errors?.['min'] || ubicacion.get('latitud')?.errors?.['max']">
+              Debe estar entre -90 y 90 grados
+            </mat-error>
+            <mat-error *ngIf="ubicacion.get('latitud')?.errors?.['pattern']">
+              Formato inválido (ej: -31.4167)
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="coordinate-field">
             <mat-label>Longitud</mat-label>
-            <input matInput type="number" formControlName="longitud" step="any">
+            <input matInput type="number" formControlName="longitud" step="any" required>
+            <mat-hint>Entre -180 y 180 grados</mat-hint>
             <mat-error *ngIf="ubicacion.get('longitud')?.errors?.['required']">
-              La longitud es requerida
+              La longitud es obligatoria
+            </mat-error>
+            <mat-error *ngIf="ubicacion.get('longitud')?.errors?.['min'] || ubicacion.get('longitud')?.errors?.['max']">
+              Debe estar entre -180 y 180 grados
+            </mat-error>
+            <mat-error *ngIf="ubicacion.get('longitud')?.errors?.['pattern']">
+              Formato inválido (ej: -64.1833)
             </mat-error>
           </mat-form-field>
         </div>
@@ -98,26 +223,68 @@
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Enlace de Google Maps</mat-label>
             <input matInput formControlName="linkMaps" placeholder="https://maps.app.goo.gl/...">
+            <button mat-icon-button matSuffix (click)="openLink(ubicacion.get('linkMaps')?.value)" [disabled]="!ubicacion.get('linkMaps')?.value">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+            <mat-hint>Opcional. Comparte ubicación desde Google Maps</mat-hint>
+            <mat-error *ngIf="ubicacion.get('linkMaps')?.errors?.['pattern']">
+              Ingrese un enlace válido de Google Maps
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="form-actions">
-          <button mat-button type="button" color="warn" (click)="removeUbicacion(i)" *ngIf="ubicacionesArray.length > 1">
-            <mat-icon>delete</mat-icon> Eliminar Ubicación
+          <button mat-button type="button" color="warn" (click)="removeUbicacion(i)">
+            <mat-icon>delete</mat-icon> Eliminar Domicilio
           </button>
         </div>
-      </div>
-      <div class="form-actions">
-        <button mat-button type="button" color="primary" (click)="addUbicacion()">
-          <mat-icon>add_location</mat-icon> Agregar Otra Ubicación
-        </button>
       </div>
     </div>
 
     <div class="form-actions">
       <button mat-button type="button" (click)="onClose()">Cancelar</button>
       <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid">
-        {{ isEditing ? 'Guardar Cambios' : 'Crear Cliente' }}
+        {{ isEditing ? 'Guardar Cambios' : 'Crear Contacto' }}
       </button>
+      
+      <!-- Mensajes de error del formulario -->
+      <div *ngIf="clientForm.invalid" class="form-errors" style="margin-top: 20px;">
+        <h4 style="color: #f44336; margin-bottom: 10px;">Por favor, complete los siguientes campos correctamente:</h4>
+        
+        <div *ngIf="clientForm.get('nombre')?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Nombre: {{ getErrorMessage('nombre') }}</span>
+        </div>
+        
+        <div *ngIf="clientForm.get('codigoArea')?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Código de área: {{ getErrorMessage('codigoArea') }}</span>
+        </div>
+        
+        <div *ngIf="clientForm.get('telefono')?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Teléfono: {{ getErrorMessage('telefono') }}</span>
+        </div>
+        
+        <div *ngIf="clientForm.get('domicilio')?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Domicilio: {{ getErrorMessage('domicilio') }}</span>
+        </div>
+        
+        <div *ngIf="clientForm.get('tipoBotellon')?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Tipo de botellón: {{ getErrorMessage('tipoBotellon') }}</span>
+        </div>
+        
+        <div *ngIf="clientForm.get('idZona')?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Zona: {{ getErrorMessage('idZona') }}</span>
+        </div>
+        
+        <div *ngIf="ubicacionesArray?.invalid" class="error-message">
+          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
+          <span>Ubicaciones: {{ ubicacionesArray?.errors ? 'Debe agregar al menos una ubicación' : '' }}</span>
+        </div>
+      </div>
     </div>
   </form>
 </div>

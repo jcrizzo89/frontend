@@ -39,11 +39,13 @@ import { ZonasModule } from './features/zonas/zonas.module';
 import { ProductosModule } from './features/productos/productos.module';
 import { CategoriasModule } from './features/categorias/categorias.module';
 import { AuthModule } from './features/auth/auth.module';
+import { SharedModule } from './shared/shared.module';
 
 // Interceptores
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { DateInterceptor } from './core/interceptors/date.interceptor';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
+    AppRoutingModule,
+    SharedModule,
     ReactiveFormsModule,
     
     // Angular Material
@@ -95,6 +98,7 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
     MatDatepickerModule
   ],
   bootstrap: [AppComponent]

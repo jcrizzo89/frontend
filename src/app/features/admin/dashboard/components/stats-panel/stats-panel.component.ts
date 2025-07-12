@@ -16,8 +16,13 @@ export class StatsPanelComponent {
     repeatedOrders: 0
   };
   @Output() viewDetails = new EventEmitter<void>();
+  @Output() addClient = new EventEmitter<void>();
 
   onViewDetails() {
     this.viewDetails.emit();
+  }
+
+  onAddClient() {
+    this.addClient.emit();
   }
 }
