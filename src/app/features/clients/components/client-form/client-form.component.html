@@ -280,10 +280,15 @@
           <span>Zona: {{ getErrorMessage('idZona') }}</span>
         </div>
         
-        <div *ngIf="ubicacionesArray?.invalid" class="error-message">
-          <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
-          <span>Ubicaciones: {{ ubicacionesArray?.errors ? 'Debe agregar al menos una ubicación' : '' }}</span>
-        </div>
+        <div *ngIf="ubicacionesArray.invalid" class="error-message">
+  <mat-icon style="font-size: 16px; height: 16px; width: 16px;">
+    error_outline
+  </mat-icon>
+  <span *ngIf="ubicacionesArray.errors?.['required']">
+    Debe agregar al menos una ubicación
+  </span>
+</div>
+
       </div>
     </div>
   </form>

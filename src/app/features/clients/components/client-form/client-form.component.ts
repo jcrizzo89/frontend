@@ -37,7 +37,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadZonas();
-    
+
     if (this.client) {
       this.isEditing = true;
       this.loadClientData();
@@ -71,7 +71,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     // Extraer código de área del teléfono si existe (asumiendo formato: '+543511234567')
     let codigoArea = '';
     let telefonoNumero = this.client.telefono || '';
-    
+
     // Si el teléfono comienza con +54, extraer el código de área (próximos dígitos después de +54)
     if (telefonoNumero.startsWith('+54')) {
       const numeroSinCodigoPais = telefonoNumero.substring(3);
@@ -90,11 +90,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       observaciones: this.client.observaciones || '',
       alerta: this.client.alerta || false
     });
-    
+
     // Cargar ubicaciones si existen
     const ubicacionesArray = this.clientForm.get('ubicaciones') as FormArray;
     ubicacionesArray.clear();
-    
+
     if (this.client.ubicaciones && this.client.ubicaciones.length > 0) {
       this.client.ubicaciones.forEach(ubicacion => {
         ubicacionesArray.push(this.createUbicacionFormGroup(ubicacion));
@@ -135,11 +135,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
       ]],
       codigoArea: ['', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern('^[0-9]{2,4}$')
       ]],
       telefono: ['', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern('^[0-9]{6,12}$')
       ]],
       domicilio: ['', [
@@ -155,7 +155,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       ]],
       imagenReferencia: [null],
       // Inicializamos el array de ubicaciones vacío
-      ubicaciones: this.fb.array([], { 
+      ubicaciones: this.fb.array([], {
         validators: [
           (control: AbstractControl) => this.atLeastOneUbicacion(control)
         ]
@@ -172,15 +172,15 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     return this.fb.group({
       idUbicacion: [ubicacion?.idUbicacion || null],
       descripcion: [
-        ubicacion?.descripcion || '', 
+        ubicacion?.descripcion || '',
         [
-          Validators.required, 
+          Validators.required,
           Validators.maxLength(100),
           Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s,.-]+$/)
         ]
       ],
       latitud: [
-        ubicacion?.latitud || null, 
+        ubicacion?.latitud || null,
         [
           Validators.required,
           Validators.min(-90),
@@ -189,7 +189,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         ]
       ],
       longitud: [
-        ubicacion?.longitud || null, 
+        ubicacion?.longitud || null,
         [
           Validators.required,
           Validators.min(-180),
@@ -198,7 +198,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         ]
       ],
       linkMaps: [
-        ubicacion?.linkMaps || '', 
+        ubicacion?.linkMaps || '',
         [Validators.pattern(/^https?:\/\/.+/)]
       ],
       activa: [ubicacion?.activa !== false]
@@ -217,7 +217,6 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     if (this.ubicacionesArray.length <= 1) {
       return; // No permitir eliminar la última ubicación
     }
-
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
       data: {
@@ -229,7 +228,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         cancelText: 'Cancelar'
       }
     });
-    
+
     dialogRef.afterClosed().subscribe(confirm => {
       if (confirm) {
         this.close.emit();
@@ -240,14 +239,14 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     // Forzar la validación de todos los controles
     this.markFormGroupTouched(this.clientForm);
-    
+
     // Verificar si el formulario es válido
     if (this.clientForm.invalid) {
       console.warn('Formulario inválido. No se puede guardar.');
       this.logFormErrors();
       return;
     }
-    
+
     if (this.isLoading) {
       console.warn('Ya se está procesando una solicitud');
       return;
@@ -255,7 +254,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     const formValue = this.clientForm.value;
-    
+
     // Preparar el objeto de ubicaciones
     const ubicaciones = formValue.ubicaciones.map((ubic: any) => ({
       idUbicacion: ubic.idUbicacion || undefined,
@@ -282,7 +281,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       // Asegurarse de que fIngreso sea un objeto Date
       fIngreso: formValue.fIngreso instanceof Date ? formValue.fIngreso : new Date()
     };
-    
+
     // Limpiar el objeto: eliminar propiedades undefined, null o vacías
     const cleanObject = (obj: any) => {
       Object.keys(obj).forEach(key => {
@@ -293,7 +292,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
           }
           return; // Mantener el campo fIngreso
         }
-        
+
         if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
           delete obj[key];
         } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
@@ -302,10 +301,10 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       });
       return obj;
     };
-    
+
     // Aplicar limpieza al objeto de datos
     cleanObject(clienteData);
-    
+
     console.log('Datos del cliente a enviar:', JSON.stringify(clienteData, null, 2));
 
     // Función para manejar la creación/actualización de ubicaciones
@@ -313,19 +312,19 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       if (ubicacionesData.length === 0) {
         return of([]);
       }
-      
+
       // Procesar cada ubicación secuencialmente
       const operations: Observable<UbicacionCliente>[] = ubicacionesData.map(ubic => {
         const ubicacionData = {
           ...ubic,
           idCliente: clienteId
         };
-        
+
         if (ubic.idUbicacion) {
           // Actualizar ubicación existente
           return this.clientService.updateUbicacion(
-            clienteId, 
-            ubic.idUbicacion, 
+            clienteId,
+            ubic.idUbicacion,
             ubicacionData
           );
         } else {
@@ -334,7 +333,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
           return this.clientService.addUbicacion(clienteId, newUbicacion);
         }
       });
-      
+
       // Ejecutar operaciones en paralelo
       return operations.length > 0 ? forkJoin(operations) : of([]);
     };
@@ -342,11 +341,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     // Si estamos editando un cliente existente
     if (this.isEditing && this.client?.idCliente) {
       const clienteId = this.client.idCliente;
-      
+
       // Primero actualizamos el cliente
       this.clientService.update(clienteId, clienteData).pipe(
         // Luego manejamos las ubicaciones
-        switchMap((updatedClient: Cliente) => 
+        switchMap((updatedClient: Cliente) =>
           handleUbicaciones(clienteId, ubicaciones).pipe(
             map((ubicacionesActualizadas: UbicacionCliente[]) => updatedClient)
           )
@@ -359,77 +358,80 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           console.error('Error al actualizar el cliente:', error);
           let errorMessage = 'Ocurrió un error al actualizar el cliente.';
-          
+
           if (error.status === 400) {
             errorMessage = 'Error de validación: ';
             if (error.error && error.error.message) {
               errorMessage += error.error.message;
-    // Si el formulario ha sido modificado, mostramos un diálogo de confirmación
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '350px',
-      data: {
-        title: 'Descartar cambios',
-        message: '¿Está seguro de que desea salir? Se perderán los cambios no guardados.',
-        confirmText: 'Salir',
-        cancelText: 'Cancelar'
-      },
-      disableClose: true // Evitar que el diálogo se cierre haciendo clic fuera
-    });
+              // Si el formulario ha sido modificado, mostramos un diálogo de confirmación
+              const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+                width: '350px',
+                data: {
+                  title: 'Descartar cambios',
+                  message: '¿Está seguro de que desea salir? Se perderán los cambios no guardados.',
+                  confirmText: 'Salir',
+                  cancelText: 'Cancelar'
+                },
+                disableClose: true // Evitar que el diálogo se cierre haciendo clic fuera
+              });
 
-    const dialogSubscription = dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.close.emit();
+              const dialogSubscription = dialogRef.afterClosed().subscribe(result => {
+                if (result) {
+                  this.close.emit();
+                }
+              });                             // ← Cierra el subscribe() del diálogo
+            }
+          }                                   // ← Cierra el if (error.status === 400)
+        }                                     // ← Cierra el callback error: (…) => { …
+      });
+      // Método para abrir enlaces
+      openLink(url: string): void {
+        if(url) {
+          window.open(url, '_blank');
+        }
       }
-  }
 
-  // Método para abrir enlaces
-  openLink(url: string): void {
-    if (url) {
-      window.open(url, '_blank');
+      // Método para manejar la selección de archivos
+      onFileSelected(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        if(input.files && input.files.length > 0) {
+        const file = input.files[0];
+        if (file) {
+          this.clientForm.patchValue({
+            imagenReferencia: file
+          });
+        }
+      }
     }
-  }
 
-  // Método para manejar la selección de archivos
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      if (file) {
-        this.clientForm.patchValue({
-          imagenReferencia: file
-        });
-      }
+    // Método para eliminar la imagen seleccionada
+    removeImage(): void {
+      this.clientForm.patchValue({
+        imagenReferencia: null
+      });
     }
-  }
 
-  // Método para eliminar la imagen seleccionada
-  removeImage(): void {
-    this.clientForm.patchValue({
-      imagenReferencia: null
-    });
-  }
-  
-  // Método para abrir enlaces en una nueva pestaña
-  openLink(url: string): void {
-    if (url) {
-      // Asegurarse de que la URL tenga el protocolo https
-      if (!url.match(/^https?:\/\//i)) {
-        url = 'https://' + url;
+    // Método para abrir enlaces en una nueva pestaña
+    openLink(url: string): void {
+      if(url) {
+        // Asegurarse de que la URL tenga el protocolo https
+        if (!url.match(/^https?:\/\//i)) {
+          url = 'https://' + url;
+        }
+        window.open(url, '_blank');
       }
-      window.open(url, '_blank');
     }
-  }
-  
-  // Método para abrir enlaces en una nueva pestaña
-  openLink(url: string): void {
-    if (url) {
-      // Asegurarse de que la URL tenga el protocolo https
-      if (!url.match(/^https?:\/\//i)) {
-        url = 'https://' + url;
+
+    // Método para abrir enlaces en una nueva pestaña
+    openLink(url: string): void {
+      if(url) {
+        // Asegurarse de que la URL tenga el protocolo https
+        if (!url.match(/^https?:\/\//i)) {
+          url = 'https://' + url;
+        }
+        window.open(url, '_blank');
       }
-      window.open(url, '_blank');
     }
-  }
 
   // Método para marcar todos los controles del formulario como touched
   private markFormGroupTouched(formGroup: FormGroup | FormArray): void {
@@ -451,19 +453,19 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   // Método para guardar el cliente
   private saveClient(): void {
     if (this.clientForm.invalid) {
       this.markFormGroupTouched(this.clientForm);
       return;
     }
-    
+
     this.isLoading = true;
-    
+
     // Obtener los valores del formulario
     const formValue = this.clientForm.value;
-    
+
     // Preparar los datos para enviar al backend
     const clienteData: any = {
       nombre: formValue.nombre,
@@ -487,16 +489,16 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
     // Determinar si hay una imagen para enviar
     const hasImage = formValue.imagenReferencia && formValue.imagenReferencia instanceof File;
-    
+
     // Realizar la petición al servidor
     let request: Observable<Cliente>;
-    
+
     if (hasImage) {
       // Si hay imagen, usar FormData
       const formData = new FormData();
       formData.append('cliente', JSON.stringify(clienteData));
       formData.append('imagen', formValue.imagenReferencia);
-      
+
       if (this.isEditing && this.client?.idCliente) {
         request = this.clientService.updateWithImage(this.client.idCliente, formData);
       } else {
@@ -517,7 +519,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         next: (savedClient) => {
           this.isLoading = false;
           this.saved.emit(savedClient);
-          
+
           // Mostrar mensaje de éxito
           this.dialog.open(ErrorDialogComponent, {
             width: '400px',
@@ -531,10 +533,10 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('Error al guardar el cliente:', error);
           this.isLoading = false;
-          
+
           // Mostrar mensaje de error
           let errorMessage = 'Ocurrió un error al guardar el cliente.';
-          
+
           if (error.error?.message) {
             errorMessage = error.error.message;
           } else if (error.status === 400) {
@@ -544,7 +546,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
           } else if (error.status >= 500) {
             errorMessage = 'Error en el servidor. Por favor, intente nuevamente más tarde.';
           }
-          
+
           this.dialog.open(ErrorDialogComponent, {
             width: '400px',
             data: {
