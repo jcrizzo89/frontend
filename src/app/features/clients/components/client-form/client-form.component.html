@@ -77,7 +77,7 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Link de Google Maps</mat-label>
         <input matInput formControlName="linkMaps" placeholder="https://maps.app.goo.gl/...">
-        <button mat-icon-button matSuffix (click)="openLink(clientForm.get('linkMaps')?.value)" [disabled]="!clientForm.get('linkMaps')?.value">
+        <button mat-icon-button matSuffix (click)="openLink(clientForm.get('linkMaps')?.value || '')" [disabled]="!clientForm.get('linkMaps')?.value">
           <mat-icon>open_in_new</mat-icon>
         </button>
         <mat-error *ngIf="clientForm.get('linkMaps')?.errors?.['pattern']">
@@ -280,9 +280,9 @@
           <span>Zona: {{ getErrorMessage('idZona') }}</span>
         </div>
         
-        <div *ngIf="ubicacionesArray?.invalid" class="error-message">
+        <div *ngIf="ubicacionesArray.invalid" class="error-message">
           <mat-icon style="font-size: 16px; height: 16px; width: 16px;">error_outline</mat-icon>
-          <span>Ubicaciones: {{ ubicacionesArray?.errors ? 'Debe agregar al menos una ubicación' : '' }}</span>
+          <span>Ubicaciones: {{ ubicacionesArray.errors ? 'Debe agregar al menos una ubicación' : '' }}</span>
         </div>
       </div>
     </div>
