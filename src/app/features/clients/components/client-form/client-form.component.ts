@@ -10,6 +10,24 @@ import { ZonaService } from '../../../../core/services/zona.service';
 import { ClientService } from '../../services/client.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
+
+export interface ClienteFormData {
+  nombre: string;
+  codigoArea: string;
+  telefono: string;
+  domicilio: string;
+  linkMaps?: string;
+  tipoBotellon: string;
+  imagenReferencia?: any;
+  ubicaciones?: UbicacionCliente[];
+  idZona: string;
+  observaciones?: string;
+  alerta: boolean;
+  cantLlamadas: number;
+  fIngreso: Date;
+}
+
+
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
@@ -219,22 +237,28 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     }
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
+      disableClose: true,
       data: {
         title: 'Eliminar Ubicación',
         message: '¿Está seguro de que desea eliminar esta ubicación?',
         confirmText: 'Eliminar',
-        message: '¿Está seguro que desea salir sin guardar los cambios?',
-        confirmText: 'Sí, salir',
         cancelText: 'Cancelar'
       }
     });
 
+<<<<<<< Updated upstream
     dialogRef.afterClosed().subscribe(confirm => {
       if (confirm) {
         this.close.emit();
+=======
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.ubicacionesArray.removeAt(index);
+>>>>>>> Stashed changes
       }
     });
   }
+
 
   onSubmit(): void {
     // Forzar la validación de todos los controles
@@ -379,6 +403,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
                 if (result) {
                   this.close.emit();
                 }
+<<<<<<< Updated upstream
               });                             // ← Cierra el subscribe() del diálogo
             }
           }                                   // ← Cierra el if (error.status === 400)
@@ -401,9 +426,40 @@ export class ClientFormComponent implements OnInit, OnDestroy {
             imagenReferencia: file
           });
         }
+=======
+              });               // ← 1) cierra el subscribe() del diálogo
+            }                     // ← 2) cierra el if(error.error && ...)
+          }                       // ← 3) cierra el if(error.status === 400)
+        }                         // ← 4) cierra el callback error: (error) => { …
+      });                         // ← 5) cierra el subscribe() principal
+    }
+  }
+  // Método para abrir enlaces
+  openLink(url: string): void {
+    if (url) {
+      const full = url.startsWith('http') ? url : `https://${url}`;
+      window.open(full, '_blank');
+    }
+  }
+
+
+
+
+
+  // Método para manejar la selección de archivos
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (file) {
+        this.clientForm.patchValue({
+          imagenReferencia: file
+        });
+>>>>>>> Stashed changes
       }
     }
 
+<<<<<<< Updated upstream
     // Método para eliminar la imagen seleccionada
     removeImage(): void {
       this.clientForm.patchValue({
@@ -432,6 +488,16 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         window.open(url, '_blank');
       }
     }
+=======
+  // Método para eliminar la imagen seleccionada
+  removeImage(): void {
+    this.clientForm.patchValue({
+      imagenReferencia: null
+    });
+  }
+
+
+>>>>>>> Stashed changes
 
   // Método para marcar todos los controles del formulario como touched
   private markFormGroupTouched(formGroup: FormGroup | FormArray): void {
@@ -488,24 +554,43 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     }
 
     // Determinar si hay una imagen para enviar
+<<<<<<< Updated upstream
     const hasImage = formValue.imagenReferencia && formValue.imagenReferencia instanceof File;
 
     // Realizar la petición al servidor
+=======
+    // Determinar si hay una imagen para enviar
+    const hasImage = formValue.imagenReferencia instanceof File;
+
+    // Declaramos aquí la variable
+>>>>>>> Stashed changes
     let request: Observable<Cliente>;
 
     if (hasImage) {
-      // Si hay imagen, usar FormData
+      // Si hay imagen, armo un FormData
       const formData = new FormData();
       formData.append('cliente', JSON.stringify(clienteData));
+<<<<<<< Updated upstream
       formData.append('imagen', formValue.imagenReferencia);
+=======
+      formData.append('imagen', formValue.imagenReferencia!);
+>>>>>>> Stashed changes
 
       if (this.isEditing && this.client?.idCliente) {
-        request = this.clientService.updateWithImage(this.client.idCliente, formData);
+        // Si es edición y hay imagen: casteo a any para saltar TS2559
+        request = this.clientService.update(
+          this.client.idCliente,
+          formData as any
+        );
       } else {
-        request = this.clientService.createWithImage(formData);
+        // Si es creación y hay imagen
+        request = this.clientService.create(
+          formData as any
+        );
       }
+
     } else {
-      // Si no hay imagen, enviar directamente el objeto
+      // Sin imagen, uso el objeto plano clienteData
       if (this.isEditing && this.client?.idCliente) {
         request = this.clientService.update(this.client.idCliente, clienteData);
       } else {
@@ -513,12 +598,20 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       }
     }
 
-    // Suscribirse a la petición
+    // Ahora request está siempre inicializado
     this.subscriptions.add(
       request.subscribe({
-        next: (savedClient) => {
+        next: savedClient => {
           this.isLoading = false;
           this.saved.emit(savedClient);
+<<<<<<< Updated upstream
+=======
+          // ... resto de tu lógica de éxito
+        },
+        error: error => {
+          this.isLoading = false;
+          this.saved.emit(savedClient);
+>>>>>>> Stashed changes
 
           // Mostrar mensaje de éxito
           this.dialog.open(ErrorDialogComponent, {
@@ -595,4 +688,10 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
     return 'Campo inválido';
   }
+
+  onClose(): void {
+    this.close.emit();
+  }
+
+
 }
