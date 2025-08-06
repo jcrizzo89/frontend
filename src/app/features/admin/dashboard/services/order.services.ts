@@ -62,7 +62,8 @@ export class OrderService {
 
   updateOrder(id: string, order: Partial<Order>): Observable<Order> {
     try {
-      // Map the frontend order to the backend's expected format
+      console.log('Raw order data received in updateOrder:', JSON.stringify(order, null, 2));
+      
       const backendOrder: any = {
         observaciones: order.observaciones,
         estado: order.estado,
@@ -74,13 +75,30 @@ export class OrderService {
         ...(order.tipoBotellon && { tipoBotellon: order.tipoBotellon })
       };
 
-      // Handle zona specially - only include if it exists and has a value
+      // Handle zona specially - ensure we're sending the ID, not the name
       if (order.zona) {
-        // If zona is an object with idZona, use that, otherwise use the value directly
-        const zonaObj = order.zona as any;
-        backendOrder.zona = typeof order.zona === 'object' && 'idZona' in zonaObj 
-          ? zonaObj.idZona 
-          : order.zona;
+        console.log('Processing zona:', order.zona);
+        
+        // If zona is an object with idZona or id
+        if (order.zona && typeof order.zona === 'object') {
+          const zonaObj = order.zona as any;
+          if (zonaObj.idZona) {
+            backendOrder.idZona = zonaObj.idZona;
+            console.log('Using idZona from object:', zonaObj.idZona);
+          } else if (zonaObj.id) {
+            backendOrder.idZona = zonaObj.id;
+            console.log('Using id from object as idZona:', zonaObj.id);
+          } else if (zonaObj.nombre) {
+            // If we only have a name, use it as a fallback (not ideal but better than failing)
+            backendOrder.idZona = zonaObj.nombre;
+            console.warn('Using zone name as idZona fallback:', zonaObj.nombre);
+          }
+        } 
+        // If zona is a string (should be handled by the component, but just in case)
+        else if (typeof order.zona === 'string') {
+          console.warn('Received string zona in updateOrder. This should be handled by the component. Value:', order.zona);
+          backendOrder.idZona = order.zona;
+        }
       }
 
       console.log('Sending update request with data:', JSON.stringify(backendOrder, null, 2));

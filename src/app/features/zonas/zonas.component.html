@@ -2,21 +2,14 @@
   <!-- Título principal -->
   <h1 class="page-title">ZONAS</h1>
 
-  <!-- Barra de búsqueda y botón de agregar -->
-  <div class="search-actions-container">
-    <div class="search-container">
-      <mat-icon class="search-icon">search</mat-icon>
-      <input type="text" class="search-input" placeholder="Buscar zona" (keyup)="applyFilter($event)">
-    </div>
-
-    <div class="actions-container">
-      <button mat-icon-button class="delete-button">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-raised-button class="add-button" color="primary" (click)="openAddZonaDialog()">
-        Agregar nueva zona
-      </button>
-    </div>
+  <!-- Botón de agregar -->
+  <div class="actions-container" style="justify-content: flex-end; margin-bottom: 1rem;">
+    <button mat-icon-button class="delete-button">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-raised-button class="add-button" color="primary" (click)="openAddZonaDialog()">
+      Agregar nueva zona
+    </button>
   </div>
 
   <!-- Contenido principal -->

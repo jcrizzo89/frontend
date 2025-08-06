@@ -64,8 +64,33 @@
     <div class="form-row">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Domicilio</mat-label>
-        <input matInput formControlName="domicilio" placeholder="Dirección completa" required>
-        <mat-hint>Dirección completa del domicilio principal</mat-hint>
+        
+        <!-- Select para direcciones guardadas -->
+        <mat-select 
+          *ngIf="isEditing && clientAddresses.length > 0"
+          formControlName="domicilio" 
+          placeholder="Seleccione una dirección guardada"
+          (selectionChange)="onAddressSelect($event)">
+          <mat-option *ngFor="let address of clientAddresses" [value]="address.idUbicacion">
+            {{ address.descripcion }}
+          </mat-option>
+        </mat-select>
+        
+        <!-- Input normal para nuevos clientes o cuando no hay direcciones guardadas -->
+        <input 
+          *ngIf="!isEditing || clientAddresses.length === 0"
+          matInput 
+          formControlName="domicilio" 
+          placeholder="Dirección completa" 
+          required>
+          
+        <mat-hint *ngIf="clientAddresses.length > 0">
+          {{ isEditing ? 'Seleccione una dirección guardada' : 'Dirección completa del domicilio principal' }}
+        </mat-hint>
+        <mat-hint *ngIf="clientAddresses.length === 0">
+          Dirección completa del domicilio principal
+        </mat-hint>
+        
         <mat-error *ngIf="clientForm.get('domicilio')?.errors?.['required']">
           El domicilio es requerido
         </mat-error>

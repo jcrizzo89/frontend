@@ -18,7 +18,7 @@ export interface Order {
   observaciones?: string;
   notaPedido?: string;
 
-  zona?: string;
+  zona?: string | { idZona: string; nombre: string };
   importe: number;
 
   repartidor?: string;

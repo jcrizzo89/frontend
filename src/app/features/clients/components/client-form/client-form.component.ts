@@ -58,6 +58,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   isEditing = false;
   isLoading = false;
   zonas: Zona[] = [];
+  clientAddresses: UbicacionCliente[] = [];
   private subscriptions = new Subscription();
 
   constructor(
@@ -75,6 +76,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     if (this.client) {
       this.isEditing = true;
       this.loadClientData();
+      this.loadClientAddresses();
     }
   }
 
@@ -84,6 +86,47 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   onClose(): void {
     this.close.emit();
+  }
+
+  /**
+   * Loads the client's saved addresses
+   */
+  private loadClientAddresses(): void {
+    if (!this.client?.idCliente) return;
+    
+    this.isLoading = true;
+    this.subscriptions.add(
+      this.clientService.getClientAddresses(this.client.idCliente).subscribe({
+        next: (addresses) => {
+          this.clientAddresses = addresses;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading client addresses:', error);
+          this.isLoading = false;
+        }
+      })
+    );
+  }
+
+  /**
+   * Handles address selection from the dropdown
+   * @param event The selection change event
+   */
+  onAddressSelect(event: any): void {
+    const selectedAddress = this.clientAddresses.find(addr => addr.idUbicacion === event.value);
+    if (selectedAddress) {
+      // Update the domicilio field with the selected address description
+      this.clientForm.patchValue({
+        domicilio: selectedAddress.descripcion,
+        linkMaps: selectedAddress.linkMaps || ''
+      });
+
+      // If there's a map link, update it as well
+      if (selectedAddress.linkMaps) {
+        this.clientForm.get('linkMaps')?.setValue(selectedAddress.linkMaps);
+      }
+    }
   }
 
   get ubicacionesArray(): FormArray {

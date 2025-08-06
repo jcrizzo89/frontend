@@ -23,20 +23,26 @@ export class PedidosHistorialComponent {
   sortBy: 'entrada' | 'estado' | 'clientName' | 'zona' | 'canal' | '' = '';
   sortAscending = true;
 
-get filteredPedidos(): Order[] {
-  return this.pedidos
-    .filter(pedido =>
-      (this.searchTerm === '' ||
-       pedido.clientName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-       pedido.zona?.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-      (this.filterStatus === '' || pedido.estado === this.filterStatus)
-    )
-    .sort((a, b) => {
-      if (this.sortBy === '') return 0;
+  get filteredPedidos(): Order[] {
+    return this.pedidos
+      .filter(pedido => {
+        const zonaNombre = typeof pedido.zona === 'string' ? pedido.zona : pedido.zona?.nombre || '';
+        return (
+          (this.searchTerm === '' ||
+           pedido.clientName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+           zonaNombre.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
+          (this.filterStatus === '' || pedido.estado === this.filterStatus)
+        );
+      })
+      .sort((a, b) => {
+        if (this.sortBy === '') return 0;
 
-      const aValue = a[this.sortBy];
-      const bValue = b[this.sortBy];
+        const aValue = a[this.sortBy];
+        const bValue = b[this.sortBy];
 
+        if (aValue == null && bValue == null) return 0;
+        if (aValue == null) return this.sortAscending ? -1 : 1;
+        if (bValue == null) return this.sortAscending ? 1 : -1;
       if (aValue == null && bValue == null) return 0;
       if (aValue == null) return this.sortAscending ? -1 : 1;
       if (bValue == null) return this.sortAscending ? 1 : -1;

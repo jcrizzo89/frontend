@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Cliente, UbicacionCliente, Llamada } from '../models/client.model';
 import { environment } from '../../../../environments/environment';
 
@@ -41,6 +41,31 @@ export class ClientService {
     }
     
     return this.http.get<Cliente>(`${this.apiUrl}/${id}`, httpOptions).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
+  /**
+   * Obtiene las direcciones guardadas de un cliente
+   * @param clientId ID del cliente
+   * @returns Observable con la lista de direcciones del cliente
+   */
+  getClientAddresses(clientId: string): Observable<UbicacionCliente[]> {
+    if (!clientId) {
+      return throwError(() => new Error('ID de cliente no proporcionado'));
+    }
+    
+    return this.http.get<Cliente>(`${this.apiUrl}/${clientId}`, httpOptions).pipe(
+      map((cliente: Cliente) => {
+        // Asegurarse de que las ubicaciones tengan un ID
+        return (cliente.ubicaciones || []).map((ubicacion, index) => ({
+          ...ubicacion,
+          // Si no tiene ID, generamos uno temporal basado en el índice
+          idUbicacion: ubicacion.idUbicacion || `temp-${index}`,
+          // Asegurarnos de que la descripción tenga un valor por defecto si está vacía
+          descripcion: ubicacion.descripcion || `Domicilio ${index + 1}`
+        }));
+      }),
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }

@@ -53,9 +53,9 @@ import { Order } from '../../models/order.model';
           <div class="form-row">
             <mat-form-field appearance="outline" class="half-width">
               <mat-label>Zona</mat-label>
-              <mat-select [(ngModel)]="order.zona" name="zona">
+              <mat-select [(ngModel)]="order.zona" name="zona" [compareWith]="compareZones">
                 <mat-option *ngFor="let zone of zones" [value]="zone">
-                  {{zone}}
+                  {{zone.nombre}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -136,7 +136,11 @@ export class EditOrderModalComponent {
   order: Order;
   
   // Datos de ejemplo - reemplazar con datos reales
-  zones = ['Zona 1', 'Zona 2', 'Zona 3'];
+  zones = [
+    { idZona: '1', nombre: 'Zona 1' },
+    { idZona: '2', nombre: 'Zona 2' },
+    { idZona: '3', nombre: 'Zona 3' }
+  ];
   drivers = ['Conductor 1', 'Conductor 2', 'Conductor 3'];
   statuses = ['Pendiente', 'En proceso', 'En camino', 'Entregado', 'Cancelado'];
   bottleTypes = ['Botellón grande', 'Botellón chico', 'Bidon 10L', 'Bidon 20L'];
@@ -148,8 +152,38 @@ export class EditOrderModalComponent {
     this.order = { ...data.order };
   }
 
+  compareZones(zone1: any, zone2: any): boolean {
+    if (!zone1 || !zone2) return false;
+    if (typeof zone1 === 'string') {
+      return zone1 === (zone2.idZona || zone2);
+    }
+    if (typeof zone2 === 'string') {
+      return (zone1.idZona || zone1) === zone2;
+    }
+    return zone1.idZona === zone2.idZona;
+  }
+
   onSave(): void {
-    this.dialogRef.close(this.order);
+    const orderToSave = { ...this.order };
+    
+    // Asegurarse de que zona sea un objeto con idZona
+    if (orderToSave.zona) {
+      // Si zona es un string, buscar el objeto correspondiente
+      if (typeof orderToSave.zona === 'string') {
+        const foundZone = this.zones.find(z => z.nombre === orderToSave.zona || z.idZona === orderToSave.zona);
+        orderToSave.zona = foundZone || { idZona: orderToSave.zona, nombre: orderToSave.zona };
+      }
+      // Si ya es un objeto pero no tiene idZona, intentar encontrarlo
+      else if (orderToSave.zona && typeof orderToSave.zona === 'object' && !('idZona' in orderToSave.zona)) {
+        const foundZone = this.zones.find(z => z.nombre === (orderToSave.zona as any).nombre || z.idZona === (orderToSave.zona as any).id);
+        if (foundZone) {
+          orderToSave.zona = foundZone;
+        }
+      }
+    }
+    
+    console.log('Saving order with zone:', orderToSave.zona);
+    this.dialogRef.close(orderToSave);
   }
 
   onCancel(): void {
