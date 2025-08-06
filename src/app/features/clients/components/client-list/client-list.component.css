@@ -39,6 +39,7 @@ th {
 mat-form-field {
   width: 100%;
   margin-bottom: 20px;
+  display: none; /* Oculta el campo de búsqueda */
 }
 
 .client-photo {
